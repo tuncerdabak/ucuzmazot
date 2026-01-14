@@ -253,7 +253,6 @@ define('FUEL_BRANDS', [
     'BP',
     'Classoil',
     'Daspet',
-    'Egeoil',
     'Energy',
     'Epic',
     'Es Es',

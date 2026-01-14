@@ -146,7 +146,7 @@
         text-align: right;
         padding: var(--space-2) 0 !important;
         border-bottom: 1px solid var(--gray-100) !important;
-        min-height: 40px;
+        min-height: 44px;
         gap: var(--space-3);
     }
 
@@ -170,9 +170,9 @@
 
     .data-table td>*,
     .table td>* {
-        flex: 1;
+        flex: 0 1 auto;
         min-width: 0;
-        overflow-wrap: anywhere;
+        overflow-wrap: break-word;
     }
 
     .data-table .actions,
@@ -181,7 +181,8 @@
         width: 100%;
         display: flex;
         flex-wrap: wrap;
-        gap: var(--space-2);
+        gap: var(--space-1);
+        padding: var(--space-1) 0;
     }
 }
 

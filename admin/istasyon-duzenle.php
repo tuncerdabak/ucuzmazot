@@ -22,7 +22,7 @@ if (!$station) {
 }
 
 // Kullanıcılar (Sahiplik için)
-$users = db()->fetchAll("SELECT id, name, phone, email FROM users ORDER BY name ASC");
+$users = db()->fetchAll("SELECT id, name, phone, email, role FROM users ORDER BY name ASC");
 // Mevcut Fiyatlar (Son eklenen)
 $lastPrice = db()->fetchOne("SELECT * FROM fuel_prices WHERE station_id = ? ORDER BY created_at DESC LIMIT 1", [$id]);
 

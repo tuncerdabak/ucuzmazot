@@ -11,7 +11,7 @@ require_once INCLUDES_PATH . '/functions.php';
 requireAdmin();
 
 // Tüm kullanıcıları getir (sahip seçimi için)
-$users = db()->fetchAll("SELECT id, name, phone, email FROM users ORDER BY name ASC");
+$users = db()->fetchAll("SELECT id, name, phone, email, role FROM users ORDER BY name ASC");
 
 $errors = [];
 $formData = [

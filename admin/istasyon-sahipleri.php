@@ -102,7 +102,7 @@ require_once __DIR__ . '/includes/header.php';
             <tbody>
                 <?php foreach ($users as $user): ?>
                     <tr>
-                        <td>
+                        <td data-label="Kullanıcı">
                             <div class="user-cell">
                                 <div class="user-info">
                                     <div class="user-name">
@@ -114,23 +114,23 @@ require_once __DIR__ . '/includes/header.php';
                                 </div>
                             </div>
                         </td>
-                        <td>
+                        <td data-label="Telefon">
                             <?= e($user['phone']) ?>
                         </td>
-                        <td>
+                        <td data-label="İstasyon Adı">
                             <strong>
                                 <?= e($user['station_name'] ?? '-') ?>
                             </strong>
                         </td>
-                        <td>
+                        <td data-label="Kayıt Tarihi">
                             <?= formatDate($user['created_at']) ?>
                         </td>
-                        <td>
+                        <td data-label="Durum">
                             <span class="status-badge <?= $user['is_active'] ? 'status-success' : 'status-danger' ?>">
                                 <?= $user['is_active'] ? 'Aktif' : 'Engelli' ?>
                             </span>
                         </td>
-                        <td class="text-right">
+                        <td data-label="İşlemler" class="text-right">
                             <div class="action-buttons">
                                 <button onclick="sendResetWhatsApp('<?= e($user['phone']) ?>', '<?= e($user['name']) ?>')"
                                     class="btn btn-sm btn-success" title="WhatsApp ile Şifre Sıfırla">

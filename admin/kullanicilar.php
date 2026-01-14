@@ -110,7 +110,7 @@ require_once __DIR__ . '/includes/header.php';
                 <?php else: ?>
                     <?php foreach ($users as $user): ?>
                         <tr>
-                            <td>
+                            <td data-label="Kullanıcı">
                                 <div class="user-cell">
                                     <div class="user-info">
                                         <div class="user-name"><?= e($user['name'] ?: 'İsimsiz') ?></div>
@@ -118,19 +118,19 @@ require_once __DIR__ . '/includes/header.php';
                                     </div>
                                 </div>
                             </td>
-                            <td><?= e($user['phone']) ?></td>
-                            <td><?= e($user['station_name'] ?: 'Varış Bekleniyor') ?></td>
-                            <td><?= $user['review_count'] ?></td>
-                            <td><?= formatDate($user['created_at']) ?></td>
-                            <td>
+                            <td data-label="Telefon"><?= e($user['phone']) ?></td>
+                            <td data-label="İstasyon"><?= e($user['station_name'] ?: 'Varış Bekleniyor') ?></td>
+                            <td data-label="Yorum"><?= $user['review_count'] ?></td>
+                            <td data-label="Kayıt Tarihi"><?= formatDate($user['created_at']) ?></td>
+                            <td data-label="Durum">
                                 <span class="status-badge <?= $user['is_active'] ? 'status-success' : 'status-danger' ?>">
                                     <?= $user['is_active'] ? 'Aktif' : 'Engelli' ?>
                                 </span>
                             </td>
-                            <td class="text-right">
+                            <td data-label="İşlemler" class="text-right">
                                 <div class="action-buttons">
-                                    <button onclick="sendResetWhatsApp('<?= e($user['phone']) ?>', '<?= e($user['name']) ?>')" 
-                                            class="btn btn-sm btn-success" title="WhatsApp ile Şifre Sıfırla">
+                                    <button onclick="sendResetWhatsApp('<?= e($user['phone']) ?>', '<?= e($user['name']) ?>')"
+                                        class="btn btn-sm btn-success" title="WhatsApp ile Şifre Sıfırla">
                                         <i class="fab fa-whatsapp"></i>
                                     </button>
                                     <?php if ($user['is_active']): ?>
@@ -168,7 +168,8 @@ require_once __DIR__ . '/includes/header.php';
             <?php
             $totalPages = ceil($total / $perPage);
             for ($i = 1; $i <= $totalPages; $i++): ?>
-                <a href="?page=<?= $i ?>&search=<?= urlencode($search) ?>" class="page-link <?= $page === $i ? 'active' : '' ?>">
+                <a href="?page=<?= $i ?>&search=<?= urlencode($search) ?>"
+                    class="page-link <?= $page === $i ? 'active' : '' ?>">
                     <?= $i ?>
                 </a>
             <?php endfor; ?>
@@ -198,7 +199,7 @@ require_once __DIR__ . '/includes/header.php';
                 body: `phone=${encodeURIComponent(phone)}&csrf_token=<?= csrfToken() ?>`
             });
             const data = await response.json();
-            
+
             if (data.success) {
                 window.open(data.whatsapp_url, '_blank');
             } else {

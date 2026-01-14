@@ -164,7 +164,7 @@ require_once __DIR__ . '/includes/header.php';
                     <?php else: ?>
                         <?php foreach ($stations as $st): ?>
                             <tr>
-                                <td>
+                                <td data-label="İstasyon">
                                     <strong>
                                         <?= e($st['name']) ?>
                                     </strong>
@@ -174,13 +174,13 @@ require_once __DIR__ . '/includes/header.php';
                                         </small>
                                     <?php endif; ?>
                                 </td>
-                                <td>
+                                <td data-label="Şehir">
                                     <?= e($st['city']) ?>
                                 </td>
-                                <td>
+                                <td data-label="Fiyat">
                                     <?= $st['current_price'] ? formatPrice($st['current_price']) : '-' ?>
                                 </td>
-                                <td>
+                                <td data-label="Durum">
                                     <?php if (!$st['is_active']): ?>
                                         <span class="status-badge rejected">Pasif</span>
                                     <?php elseif (!$st['is_approved']): ?>
@@ -189,10 +189,10 @@ require_once __DIR__ . '/includes/header.php';
                                         <span class="status-badge approved">Onaylı</span>
                                     <?php endif; ?>
                                 </td>
-                                <td>
+                                <td data-label="Tarih">
                                     <?= formatDate($st['created_at'], 'd.m.Y') ?>
                                 </td>
-                                <td class="actions">
+                                <td data-label="İşlemler" class="actions">
                                     <?php if (!$st['is_approved']): ?>
                                         <form method="POST" style="display:inline;">
                                             <input type="hidden" name="csrf_token" value="<?= csrfToken() ?>">

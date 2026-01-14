@@ -129,13 +129,13 @@ require_once __DIR__ . '/includes/header.php';
                     <tbody>
                         <?php foreach ($pendingPrices as $price): ?>
                             <tr>
-                                <td><strong>
+                                <td data-label="İstasyon"><strong>
                                         <?= e($price['station_name']) ?>
                                     </strong></td>
-                                <td>
+                                <td data-label="Şehir">
                                     <?= e($price['city']) ?>
                                 </td>
-                                <td>
+                                <td data-label="Fiyat">
                                     <span class="<?= isPriceAbnormal($price['diesel_price']) ? 'text-danger' : '' ?>">
                                         <strong>
                                             <?= formatPrice($price['diesel_price']) ?>
@@ -145,13 +145,13 @@ require_once __DIR__ . '/includes/header.php';
                                         <br><small class="text-danger">Aralık dışı!</small>
                                     <?php endif; ?>
                                 </td>
-                                <td>
+                                <td data-label="Güncelleyen">
                                     <?= e($price['updated_by_name'] ?? '-') ?>
                                 </td>
-                                <td>
+                                <td data-label="Tarih">
                                     <?= formatDate($price['created_at']) ?>
                                 </td>
-                                <td class="actions">
+                                <td data-label="İşlemler" class="actions">
                                     <form method="POST" style="display:inline;">
                                         <input type="hidden" name="csrf_token" value="<?= csrfToken() ?>">
                                         <input type="hidden" name="price_id" value="<?= $price['id'] ?>">
@@ -200,20 +200,20 @@ require_once __DIR__ . '/includes/header.php';
                     <tbody>
                         <?php foreach ($abnormalPrices as $price): ?>
                             <tr>
-                                <td><strong>
+                                <td data-label="İstasyon"><strong>
                                         <?= e($price['station_name']) ?>
                                     </strong></td>
-                                <td>
+                                <td data-label="Şehir">
                                     <?= e($price['city']) ?>
                                 </td>
-                                <td>
+                                <td data-label="Fiyat">
                                     <span class="text-danger">
                                         <strong>
                                             <?= formatPrice($price['diesel_price']) ?>
                                         </strong>
                                     </span>
                                 </td>
-                                <td>
+                                <td data-label="Tarih">
                                     <?= formatDate($price['created_at']) ?>
                                 </td>
                             </tr>

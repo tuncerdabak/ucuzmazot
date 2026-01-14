@@ -148,7 +148,7 @@ function sortLink($col, $label)
                     <?php else: ?>
                         <?php foreach ($prices as $p): ?>
                             <tr>
-                                <td>
+                                <td data-label="İstasyon">
                                     <strong>
                                         <?= e($p['station_name']) ?>
                                     </strong>
@@ -156,10 +156,10 @@ function sortLink($col, $label)
                                         <?= e($p['brand']) ?>
                                     </small>
                                 </td>
-                                <td>
+                                <td data-label="Şehir">
                                     <?= e($p['city']) ?>
                                 </td>
-                                <td>
+                                <td data-label="Motorin">
                                     <?php if ($p['diesel_price']): ?>
                                         <div class="price-tag">
                                             <span class="digital-price"><?= number_format($p['diesel_price'], 2, ',', '.') ?></span>
@@ -169,27 +169,29 @@ function sortLink($col, $label)
                                         -
                                     <?php endif; ?>
                                 </td>
-                                <td>
+                                <td data-label="TIR Özel">
                                     <?php if ($p['truck_diesel_price']): ?>
                                         <div class="price-tag" style="color: #b91c1c;">
-                                            <span class="digital-price" style="color: inherit;"><?= number_format($p['truck_diesel_price'], 2, ',', '.') ?></span>
+                                            <span class="digital-price"
+                                                style="color: inherit;"><?= number_format($p['truck_diesel_price'], 2, ',', '.') ?></span>
                                             <span class="currency" style="color: inherit;">TL</span>
                                         </div>
                                     <?php else: ?>
                                         -
                                     <?php endif; ?>
                                 </td>
-                                <td>
+                                <td data-label="Benzin">
                                     <?php if ($p['gasoline_price']): ?>
                                         <div class="price-tag">
-                                            <span class="digital-price"><?= number_format($p['gasoline_price'], 2, ',', '.') ?></span>
+                                            <span
+                                                class="digital-price"><?= number_format($p['gasoline_price'], 2, ',', '.') ?></span>
                                             <span class="currency">TL</span>
                                         </div>
                                     <?php else: ?>
                                         -
                                     <?php endif; ?>
                                 </td>
-                                <td>
+                                <td data-label="LPG">
                                     <?php if ($p['lpg_price']): ?>
                                         <div class="price-tag">
                                             <span class="digital-price"><?= number_format($p['lpg_price'], 2, ',', '.') ?></span>
@@ -199,12 +201,12 @@ function sortLink($col, $label)
                                         -
                                     <?php endif; ?>
                                 </td>
-                                <td>
+                                <td data-label="Güncelleyen">
                                     <span title="User ID: <?= $p['updated_by'] ?: 'System' ?>">
                                         <?= e($p['updater_name'] ?: 'Misafir/IP: ' . ($p['note'] ?? 'Sistem')) ?>
                                     </span>
                                 </td>
-                                <td>
+                                <td data-label="Tarih">
                                     <?= formatDate($p['created_at'], 'd.m.Y H:i') ?>
                                 </td>
                             </tr>

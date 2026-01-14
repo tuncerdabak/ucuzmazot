@@ -104,16 +104,18 @@
     justify-content: flex-end;
 }
 
+/* Table Card View on Mobile */
 @media (max-width: 768px) {
 
     .data-table,
     .table {
-        display: block;
+        display: block !important;
+        border: none !important;
     }
 
     .data-table thead,
     .table thead {
-        display: none;
+        display: none !important;
     }
 
     .data-table tbody,
@@ -122,34 +124,35 @@
     .table tr,
     .data-table td,
     .table td {
-        display: block;
-        width: 100%;
+        display: block !important;
+        width: 100% !important;
     }
 
     .data-table tr,
     .table tr {
-        margin-bottom: var(--space-4);
+        margin-bottom: var(--space-4) !important;
         background: var(--white);
-        border: 1px solid var(--gray-200);
+        border: 1px solid var(--gray-200) !important;
         border-radius: var(--radius-lg);
-        padding: var(--space-3);
+        padding: var(--space-3) !important;
         box-shadow: var(--shadow-sm);
     }
 
     .data-table td,
     .table td {
-        display: flex;
+        display: flex !important;
         justify-content: space-between;
         align-items: center;
         text-align: right;
-        padding: var(--space-2) 0;
-        border-bottom: 1px solid var(--gray-100);
+        padding: var(--space-2) 0 !important;
+        border-bottom: 1px solid var(--gray-100) !important;
         min-height: 40px;
+        gap: var(--space-3);
     }
 
     .data-table td:last-child,
     .table td:last-child {
-        border-bottom: none;
+        border-bottom: none !important;
     }
 
     .data-table td::before,
@@ -159,20 +162,26 @@
         color: var(--gray-500);
         float: left;
         text-align: left;
-        font-size: 0.8125rem;
+        font-size: 0.75rem;
         text-transform: uppercase;
-        margin-right: var(--space-4);
+        flex: 0 0 auto;
+        max-width: 40%;
+    }
+
+    .data-table td>*,
+    .table td>* {
+        flex: 1;
+        min-width: 0;
+        overflow-wrap: anywhere;
     }
 
     .data-table .actions,
     .action-buttons {
-        justify-content: flex-end;
+        justify-content: flex-end !important;
         width: 100%;
-    }
-
-    .data-table .price-tag,
-    .table .price-tag {
-        font-size: 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2);
     }
 }
 
@@ -339,11 +348,6 @@
 
 /* Responsive Improvements */
 @media (max-width: 1024px) {
-    .data-table {
-        display: table;
-        /* Ensure it stays a table */
-    }
-
     .filter-bar {
         gap: var(--space-2);
         margin-bottom: var(--space-4);
@@ -382,10 +386,14 @@
 
     .filter-bar {
         gap: var(--space-2);
+        flex-direction: column !important;
+        align-items: stretch !important;
     }
 
     .filter-bar .form-control,
-    .filter-bar .search-input {
+    .filter-bar .search-input,
+    .filter-bar .select2-container {
+        width: 100% !important;
         max-width: none !important;
         flex: 1 1 auto;
     }

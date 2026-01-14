@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Admin ve İstasyon Panellerini Gizle
+Disallow: /admin/
+Disallow: /station/
+Disallow: /includes/
+Disallow: /assets/css/
+Disallow: /assets/js/
+
+# Sitemap Konumu
+Sitemap: https://ucuzmazot.com/sitemap.php

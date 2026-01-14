@@ -1,0 +1,349 @@
+/* =====================================================
+   Admin Paneli Stilleri
+   ===================================================== */
+
+/* Admin Sidebar */
+.admin-sidebar {
+    background: linear-gradient(180deg, #1e3a5f 0%, #0f172a 100%);
+}
+
+.admin-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    background: var(--danger);
+    color: white;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    border-radius: var(--radius-full);
+    margin-left: var(--space-2);
+}
+
+/* Pending List */
+.pending-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.pending-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-3);
+    background: var(--gray-50);
+    border-radius: var(--radius);
+}
+
+.pending-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.pending-info strong {
+    font-size: 0.9375rem;
+}
+
+.pending-info span {
+    font-size: 0.8125rem;
+    color: var(--gray-500);
+}
+
+.pending-actions {
+    display: flex;
+    gap: var(--space-2);
+}
+
+/* Data Table */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+    padding: var(--space-3) var(--space-4);
+    text-align: left;
+    border-bottom: 1px solid var(--gray-100);
+}
+
+.data-table th {
+    background: var(--gray-50);
+    font-weight: 600;
+    font-size: 0.8125rem;
+    color: var(--gray-600);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.data-table .digital-price {
+    font-size: 1.25rem;
+    letter-spacing: 1px;
+}
+
+.data-table tbody tr:hover {
+    background: var(--gray-50);
+}
+
+.data-table .actions,
+.action-buttons {
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+}
+
+.text-right .action-buttons {
+    justify-content: flex-end;
+}
+
+@media (max-width: 768px) {
+
+    .data-table .actions,
+    .action-buttons {
+        gap: var(--space-4);
+        /* More gap on mobile for easier touch */
+    }
+
+    .btn-sm {
+        padding: var(--space-2) var(--space-3);
+        /* Slightly larger buttons for touch */
+    }
+}
+
+/* Status Badges */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-2);
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: var(--radius-full);
+}
+
+.status-badge.approved {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+}
+
+.status-badge.pending {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--warning);
+}
+
+.status-badge.rejected {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+}
+
+/* Filter Bar */
+.filter-bar {
+    display: flex;
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.filter-bar .form-control {
+    width: 180px;
+    flex: 0 0 auto;
+}
+
+.filter-bar .search-input {
+    width: 240px;
+    flex: 0 0 auto;
+}
+
+.filter-bar .btn {
+    flex: 0 0 auto;
+}
+
+/* Modal */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition);
+    padding: var(--space-4);
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: scale(0.9);
+    transition: transform var(--transition);
+}
+
+.modal-overlay.active .modal-content {
+    transform: scale(1);
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4) var(--space-5);
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.125rem;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    color: var(--gray-400);
+    cursor: pointer;
+}
+
+.modal-body {
+    padding: var(--space-5);
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-5);
+    border-top: 1px solid var(--gray-200);
+}
+
+/* Activity Log */
+.activity-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.activity-item {
+    display: flex;
+    gap: var(--space-3);
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--gray-100);
+}
+
+.activity-item:last-child {
+    border-bottom: none;
+}
+
+.activity-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    background: var(--gray-100);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    color: var(--gray-500);
+    flex-shrink: 0;
+}
+
+.activity-info {
+    flex: 1;
+}
+
+.activity-info p {
+    margin: 0;
+    font-size: 0.875rem;
+}
+
+.activity-time {
+    font-size: 0.75rem;
+    color: var(--gray-400);
+}
+
+/* Responsive Improvements */
+@media (max-width: 1024px) {
+    .data-table {
+        display: table;
+        /* Ensure it stays a table */
+    }
+
+    .filter-bar {
+        gap: var(--space-2);
+        margin-bottom: var(--space-4);
+    }
+
+    .filter-bar .form-control {
+        width: 150px;
+    }
+
+    .filter-bar .search-input {
+        width: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .panel-header {
+        flex-direction: column;
+        align-items: stretch;
+        height: auto;
+        padding-top: 5rem;
+        padding-bottom: var(--space-4);
+        padding-right: var(--space-4);
+        gap: var(--space-3);
+    }
+
+    .panel-header h1 {
+        max-width: 100%;
+    }
+
+    .header-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+
+    .filter-bar {
+        gap: var(--space-3);
+    }
+
+    .filter-bar .form-control,
+    .filter-bar .search-input {
+        max-width: none !important;
+        flex: 1 1 auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filter-bar .form-control,
+    .filter-bar .search-input {
+        width: 100% !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-actions {
+        flex-direction: column;
+        gap: var(--space-2);
+        align-items: stretch;
+    }
+
+    .header-actions .text-gray {
+        text-align: center;
+    }
+}

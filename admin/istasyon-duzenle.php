@@ -157,7 +157,11 @@ require_once __DIR__ . '/includes/header.php';
                                 <label class="form-label">Marka</label>
                                 <select name="brand" class="form-control">
                                     <option value="">Seçiniz</option>
-                                    <?php foreach (FUEL_BRANDS as $brand): ?>
+                                    <?php
+                                    $sortedBrands = FUEL_BRANDS;
+                                    asort($sortedBrands, SORT_LOCALE_STRING);
+                                    foreach ($sortedBrands as $brand):
+                                        ?>
                                         <option value="<?= e($brand) ?>" <?= $station['brand'] === $brand ? 'selected' : '' ?>>
                                             <?= e($brand) ?>
                                         </option>

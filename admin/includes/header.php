@@ -19,6 +19,7 @@ $pageTitle = $pageTitle ?? 'Admin Paneli - ' . SITE_NAME;
     <link rel="stylesheet" href="<?= asset('css/style.css') ?>">
     <link rel="stylesheet" href="<?= asset('css/panel-layout.css') ?>">
     <link rel="stylesheet" href="<?= asset('css/admin-panel.css') ?>">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <?php if (isset($extraCss)): ?>
         <link rel="stylesheet" href="<?= asset($extraCss) ?>">
     <?php endif; ?>

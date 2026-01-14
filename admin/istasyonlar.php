@@ -123,7 +123,7 @@ require_once __DIR__ . '/includes/header.php';
         <option value="inactive" <?= $filter === 'inactive' ? 'selected' : '' ?>>Pasif</option>
     </select>
 
-    <select class="form-control" onchange="applyFilter('city', this.value)">
+    <select class="form-control select2" onchange="applyFilter('city', this.value)">
         <option value="">Tüm Şehirler</option>
         <?php foreach ($cities as $c): ?>
             <option value="<?= e($c['city']) ?>" <?= $city === $c['city'] ? 'selected' : '' ?>>

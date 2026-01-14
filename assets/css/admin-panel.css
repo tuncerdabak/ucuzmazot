@@ -356,3 +356,64 @@
         text-align: center;
     }
 }
+
+/* Select2 Custom Styles */
+.select2-container--default .select2-selection--single {
+    height: 48px;
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: normal;
+    padding-left: var(--space-4);
+    color: var(--gray-800);
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 46px;
+}
+
+.select2-dropdown {
+    border: 2px solid var(--primary);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    z-index: 10001;
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    padding: var(--space-2);
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: var(--primary);
+}
+
+/* Form Responsiveness */
+@media (max-width: 768px) {
+    .card-body {
+        padding: var(--space-4);
+    }
+    
+    .row {
+        flex-direction: column !important;
+        gap: 0 !important;
+    }
+    
+    .col-md-6, .col-lg-8, .col-lg-4 {
+        width: 100% !important;
+        flex: none !important;
+    }
+    
+    .bg-light.p-3.rounded.mb-4.mx-0 .row {
+        flex-direction: row !important; /* Keep price inputs in row if possible or stack them */
+    }
+    
+    .bg-light.p-3.rounded.mb-4.mx-0 .col-md-4 {
+        margin-bottom: var(--space-3);
+    }
+}

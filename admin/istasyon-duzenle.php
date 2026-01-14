@@ -155,7 +155,7 @@ require_once __DIR__ . '/includes/header.php';
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Marka</label>
-                                <select name="brand" class="form-control">
+                                <select name="brand" class="form-control select2">
                                     <option value="">Seçiniz</option>
                                     <?php
                                     $sortedBrands = FUEL_BRANDS;
@@ -173,7 +173,7 @@ require_once __DIR__ . '/includes/header.php';
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Şehir</label>
-                                <select name="city" class="form-control" required>
+                                <select name="city" class="form-control select2" required>
                                     <?php foreach (TURKEY_CITIES as $city): ?>
                                         <option value="<?= e($city) ?>" <?= $station['city'] === $city ? 'selected' : '' ?>>
                                             <?= e($city) ?>

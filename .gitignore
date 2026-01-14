@@ -1,6 +1,4 @@
 /uploads/
-/.git/
-/.github/
 /brain/
 node_modules/
 .DS_Store

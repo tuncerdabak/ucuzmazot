@@ -8,6 +8,7 @@
     display: grid;
     grid-template-columns: 280px 1fr;
     min-height: 100vh;
+    position: relative;
 }
 
 /* Sidebar */
@@ -173,22 +174,20 @@
 .mobile-menu-toggle {
     display: none;
     position: fixed;
-    top: 15px;
-    left: 15px;
+    top: 10px;
+    left: 10px;
     z-index: 1100;
-    width: 48px;
-    /* Enlarged touch target */
-    height: 48px;
+    width: 44px;
+    height: 44px;
     border-radius: var(--radius);
     background: var(--white);
     border: 1px solid var(--gray-200);
     color: var(--gray-700);
-    font-size: 1.5rem;
-    /* Enlarged icon */
+    font-size: 1.25rem;
     cursor: pointer;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-md);
     transition: all 0.2s;
 }
 
@@ -248,8 +247,8 @@
 
     .panel-header {
         padding: 0 var(--space-4);
-        padding-left: 72px;
-        height: 60px;
+        padding-left: 64px;
+        height: 64px;
     }
 
     .panel-header h1 {

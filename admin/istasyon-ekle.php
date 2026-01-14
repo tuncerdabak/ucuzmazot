@@ -83,7 +83,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 setFlash('success', 'İstasyon ve fiyat bilgileri başarıyla oluşturuldu.');
                 redirect('/admin/istasyonlar.php');
             } catch (Exception $e) {
-                if (db()->inTransaction()) db()->rollBack();
+                if (db()->inTransaction())
+                    db()->rollBack();
                 $errors[] = 'Veritabanı hatası: ' . $e->getMessage();
             }
         }
@@ -165,7 +166,8 @@ require_once __DIR__ . '/includes/header.php';
                     <div class="form-group mb-2">
                         <label class="form-label">Mazot Fiyatı</label>
                         <div class="input-group">
-                            <input type="number" step="0.01" name="diesel_price" class="form-control" placeholder="0.00" value="<?= e($formData['diesel_price']) ?>">
+                            <input type="number" step="0.01" name="diesel_price" class="form-control" placeholder="0.00"
+                                value="<?= e($formData['diesel_price']) ?>">
                             <span class="input-group-text">TL</span>
                         </div>
                     </div>
@@ -174,7 +176,8 @@ require_once __DIR__ . '/includes/header.php';
                     <div class="form-group mb-2">
                         <label class="form-label">Benzin Fiyatı</label>
                         <div class="input-group">
-                            <input type="number" step="0.01" name="gasoline_price" class="form-control" placeholder="0.00" value="<?= e($formData['gasoline_price']) ?>">
+                            <input type="number" step="0.01" name="gasoline_price" class="form-control"
+                                placeholder="0.00" value="<?= e($formData['gasoline_price']) ?>">
                             <span class="input-group-text">TL</span>
                         </div>
                     </div>
@@ -183,7 +186,8 @@ require_once __DIR__ . '/includes/header.php';
                     <div class="form-group mb-2">
                         <label class="form-label">LPG Fiyatı</label>
                         <div class="input-group">
-                            <input type="number" step="0.01" name="lpg_price" class="form-control" placeholder="0.00" value="<?= e($formData['lpg_price']) ?>">
+                            <input type="number" step="0.01" name="lpg_price" class="form-control" placeholder="0.00"
+                                value="<?= e($formData['lpg_price']) ?>">
                             <span class="input-group-text">TL</span>
                         </div>
                     </div>
@@ -266,8 +270,8 @@ require_once __DIR__ . '/includes/header.php';
         const zoom = <?= $formData['lat'] ? '15' : '6' ?>;
 
         const map = L.map('locationMap').setView([initialLat, initialLng], zoom);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap'
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
         }).addTo(map);
 
         let marker = null;
@@ -311,19 +315,19 @@ require_once __DIR__ . '/includes/header.php';
         });
 
         // Konumumu Bul
-        btnGetLocation.addEventListener('click', function() {
+        btnGetLocation.addEventListener('click', function () {
             if (navigator.geolocation) {
                 btnGetLocation.disabled = true;
                 btnGetLocation.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Aranıyor...';
-                
-                navigator.geolocation.getCurrentPosition(function(position) {
+
+                navigator.geolocation.getCurrentPosition(function (position) {
                     const lat = position.coords.latitude;
                     const lng = position.coords.longitude;
                     updateMarker(lat, lng, true);
-                    
+
                     btnGetLocation.disabled = false;
                     btnGetLocation.innerHTML = '<i class="fas fa-map-marker-alt"></i> Konumumu Bul';
-                }, function(error) {
+                }, function (error) {
                     alert('Konum alınamadı: ' + error.message);
                     btnGetLocation.disabled = false;
                     btnGetLocation.innerHTML = '<i class="fas fa-map-marker-alt"></i> Konumumu Bul';

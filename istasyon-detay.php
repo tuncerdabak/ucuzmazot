@@ -513,7 +513,9 @@ require_once INCLUDES_PATH . '/header.php';
     document.addEventListener('DOMContentLoaded', function () {
         // Mini harita
         const detailMap = L.map('detailMap').setView([<?= $station['lat'] ?>, <?= $station['lng'] ?>], 15);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(detailMap);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        }).addTo(detailMap);
         L.marker([<?= $station['lat'] ?>, <?= $station['lng'] ?>]).addTo(detailMap)
             .bindPopup('<?= e($station['name']) ?>').openPopup();
 

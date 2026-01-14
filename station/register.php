@@ -277,7 +277,9 @@ $pageTitle = 'İstasyon Kaydı - ' . SITE_NAME;
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const map = L.map('locationMap').setView([39.9334, 32.8597], 6); // Türkiye merkezi
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+            }).addTo(map);
 
             let marker = null;
             const latInput = document.getElementById('latInput');

@@ -153,6 +153,14 @@ class Database
     {
         return $this->pdo->rollBack();
     }
+
+    /**
+     * Transaction aktif mi?
+     */
+    public function inTransaction()
+    {
+        return $this->pdo->inTransaction();
+    }
 }
 
 /**

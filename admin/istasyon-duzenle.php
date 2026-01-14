@@ -280,7 +280,9 @@ require_once __DIR__ . '/includes/header.php';
         const zoom = 15;
 
         const map = L.map('locationMap').setView([initialLat, initialLng], zoom);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        }).addTo(map);
 
         let marker = L.marker([initialLat, initialLng], { draggable: true }).addTo(map);
         const latInput = document.getElementById('latInput');

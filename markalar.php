@@ -8,10 +8,13 @@ require_once INCLUDES_PATH . '/auth.php';
 require_once INCLUDES_PATH . '/functions.php';
 
 // Tüm markaları çek (config.php'deki listeden)
-$brands = array_filter(FUEL_BRANDS, function ($b) {
-    return $b !== 'Diğer'; });
+$brandsList = array_filter(FUEL_BRANDS, function ($b) {
+    return $b !== 'Diğer';
+});
+asort($brandsList, SORT_LOCALE_STRING);
 $brands = array_map(function ($b) {
-    return ['brand' => $b]; }, $brands);
+    return ['brand' => $b];
+}, $brandsList);
 
 $pageTitle = 'Markalar - ' . SITE_NAME;
 require_once INCLUDES_PATH . '/header.php';

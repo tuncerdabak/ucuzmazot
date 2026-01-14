@@ -7,8 +7,11 @@ require_once INCLUDES_PATH . '/db.php';
 require_once INCLUDES_PATH . '/auth.php';
 require_once INCLUDES_PATH . '/functions.php';
 
-// Tüm markaları çek
-$brands = db()->fetchAll("SELECT DISTINCT brand FROM stations WHERE is_active = 1 AND is_approved = 1 AND brand IS NOT NULL AND brand != '' ORDER BY brand ASC");
+// Tüm markaları çek (config.php'deki listeden)
+$brands = array_filter(FUEL_BRANDS, function ($b) {
+    return $b !== 'Diğer'; });
+$brands = array_map(function ($b) {
+    return ['brand' => $b]; }, $brands);
 
 $pageTitle = 'Markalar - ' . SITE_NAME;
 require_once INCLUDES_PATH . '/header.php';

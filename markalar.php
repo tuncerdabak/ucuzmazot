@@ -22,10 +22,11 @@ require_once INCLUDES_PATH . '/header.php';
 
 <div class="brands-page">
     <div class="container">
-        <header class="page-header text-center mb-8">
-            <h1>Markalar</h1>
-            <p class="text-gray">Size en yakın favori marka istasyonunuzu bulun.</p>
-        </header>
+        <!-- Premium Page Header -->
+        <div class="page-header-premium animate__animated animate__fadeIn text-center" style="margin-bottom: 32px;">
+            <h1 style="margin-bottom: 12px;">Markalar</h1>
+            <p class="subtitle">Size en yakın favori marka istasyonunuzu bulun.</p>
+        </div>
 
         <!-- Brand Grid -->
         <div class="brands-grid">
@@ -111,9 +112,9 @@ require_once INCLUDES_PATH . '/header.php';
     }
 
     .brand-item {
-        background: var(--white);
-        border: 1px solid var(--gray-200);
-        border-radius: var(--radius-lg);
+        background: linear-gradient(145deg, #ffffff, #f8fafc);
+        border: 2px solid rgba(229, 231, 235, 0.8);
+        border-radius: 16px;
         padding: var(--space-5);
         display: flex;
         flex-direction: column;
@@ -121,35 +122,60 @@ require_once INCLUDES_PATH . '/header.php';
         justify-content: center;
         gap: var(--space-3);
         cursor: pointer;
-        transition: all 0.2s;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         text-align: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     }
 
     .brand-item:hover {
-        border-color: var(--primary);
-        transform: translateY(-2px);
-        box-shadow: var(--shadow);
+        border-color: rgba(59, 130, 246, 0.4);
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 12px 30px rgba(37, 99, 235, 0.15);
     }
 
     .brand-item.active {
-        background: var(--primary-light);
-        border-color: var(--primary);
-        color: var(--primary);
+        background: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(59, 130, 246, 0.12));
+        border-color: rgba(59, 130, 246, 0.5);
+        box-shadow: 0 8px 25px rgba(37, 99, 235, 0.2);
+    }
+
+    [data-theme="dark"] .brand-item {
+        background: linear-gradient(145deg, rgba(31, 41, 55, 0.95), rgba(17, 24, 39, 0.9));
+        border: 2px solid rgba(75, 85, 99, 0.5);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    [data-theme="dark"] .brand-item:hover {
+        border-color: rgba(59, 130, 246, 0.5);
+        box-shadow: 0 12px 30px rgba(59, 130, 246, 0.25), 0 0 20px rgba(59, 130, 246, 0.1);
+    }
+
+    [data-theme="dark"] .brand-item.active {
+        background: linear-gradient(135deg, rgba(37, 99, 235, 0.2), rgba(59, 130, 246, 0.15));
+        border-color: rgba(59, 130, 246, 0.6);
     }
 
     .brand-icon {
         font-size: 1.5rem;
         color: var(--gray-400);
-        width: 48px;
-        height: 48px;
+        width: 56px;
+        height: 56px;
         display: flex;
         align-items: center;
         justify-content: center;
+        background: linear-gradient(145deg, #f3f4f6, #e5e7eb);
+        border-radius: 12px;
+        transition: all 0.25s ease;
+    }
+
+    [data-theme="dark"] .brand-icon {
+        background: linear-gradient(145deg, rgba(55, 65, 81, 0.8), rgba(31, 41, 55, 0.8));
     }
 
     .brand-icon.has-logo {
         width: 64px;
         height: 64px;
+        background: transparent;
     }
 
     .brand-icon img {
@@ -161,14 +187,20 @@ require_once INCLUDES_PATH . '/header.php';
     .brand-item:hover .brand-icon,
     .brand-item.active .brand-icon {
         color: var(--primary);
+        transform: scale(1.1);
     }
 
     .brand-name {
-        font-weight: 600;
+        font-weight: 700;
         font-size: 0.9rem;
+        color: #374151;
     }
 
-    /* Result Card */
+    [data-theme="dark"] .brand-name {
+        color: #e5e7eb;
+    }
+
+    /* Result Card - Premium */
     .result-section {
         max-width: 500px;
         margin: 0 auto;
@@ -177,6 +209,16 @@ require_once INCLUDES_PATH . '/header.php';
     .result-card {
         padding: var(--space-6);
         animation: slideUp 0.3s ease;
+        background: linear-gradient(145deg, #ffffff, #f8fafc);
+        border-radius: 20px;
+        border: 1px solid rgba(229, 231, 235, 0.8);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    [data-theme="dark"] .result-card {
+        background: linear-gradient(145deg, rgba(31, 41, 55, 0.95), rgba(17, 24, 39, 0.9));
+        border: 1px solid rgba(75, 85, 99, 0.5);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
     }
 
     @keyframes slideUp {
@@ -200,42 +242,60 @@ require_once INCLUDES_PATH . '/header.php';
     .result-icon {
         width: 56px;
         height: 56px;
-        background: var(--primary);
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
         color: white;
-        border-radius: var(--radius-lg);
+        border-radius: 14px;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 1.5rem;
         flex-shrink: 0;
+        box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
     }
 
     .result-label {
         font-size: 0.875rem;
-        color: var(--gray-500);
+        color: #6b7280;
         display: block;
         margin-bottom: 4px;
+    }
+
+    [data-theme="dark"] .result-label {
+        color: #9ca3af;
     }
 
     .result-info h2 {
         font-size: 1.25rem;
         margin-bottom: 4px;
         line-height: 1.2;
+        color: #1f2937;
+    }
+
+    [data-theme="dark"] .result-info h2 {
+        color: #f3f4f6;
     }
 
     .result-distance {
-        color: var(--primary);
-        font-weight: 600;
+        color: #2563eb;
+        font-weight: 700;
         font-size: 0.9rem;
+    }
+
+    [data-theme="dark"] .result-distance {
+        color: #60a5fa;
     }
 
     .result-prices {
         display: flex;
         justify-content: space-between;
-        background: var(--gray-50);
+        background: linear-gradient(145deg, #f3f4f6, #e5e7eb);
         padding: var(--space-4);
-        border-radius: var(--radius);
+        border-radius: 12px;
         margin-bottom: var(--space-6);
+    }
+
+    [data-theme="dark"] .result-prices {
+        background: linear-gradient(145deg, rgba(55, 65, 81, 0.6), rgba(31, 41, 55, 0.6));
     }
 
     .price-mini {

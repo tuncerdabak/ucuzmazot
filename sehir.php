@@ -40,43 +40,43 @@ $pageDescription = "$cityFound ve ilçelerindeki güncel mazot, benzin ve LPG fi
 require_once INCLUDES_PATH . '/header.php';
 ?>
 
-<div class="container py-5">
-    <nav aria-label="breadcrumb">
+
+<div class="container py-4">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-3">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="<?php echo url(); ?>">Ana Sayfa</a></li>
             <li class="breadcrumb-item active" aria-current="page"><?php echo e($cityFound); ?></li>
         </ol>
     </nav>
 
-    <div class="row mb-4 animate__animated animate__fadeIn">
-        <div class="col-md-8">
-            <h1 class="display-5 fw-bold text-gradient mb-2">
-                <?php echo e($cityFound); ?> En Ucuz Mazot
-            </h1>
-            <p class="lead text-muted">
-                Bugün (<?php echo date('d.m.Y'); ?>) tarihinde <?php echo e($cityFound); ?> ilindeki en uygun fiyatlı
-                akaryakıt istasyonları listelenmektedir.
-            </p>
-        </div>
-        <div class="col-md-4 text-md-end d-flex align-items-center justify-content-md-end">
-            <a href="<?php echo url(); ?>#map" class="btn btn-primary btn-lg rounded-pill shadow-sm">
-                <i class="material-symbols-outlined align-middle me-2">map</i>
+    <!-- Premium Page Header -->
+    <div class="page-header-premium animate__animated animate__fadeIn">
+        <div
+            class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
+            <div>
+                <h1><?php echo e($cityFound); ?> En Ucuz Mazot</h1>
+                <p class="subtitle">Bugün (<?php echo date('d.m.Y'); ?>) tarihinde <?php echo e($cityFound); ?> ilindeki
+                    en uygun fiyatlı akaryakıt istasyonları.</p>
+            </div>
+            <a href="<?php echo url(); ?>#map" class="filter-btn-premium" style="width: auto; padding: 12px 24px;">
+                <i class="material-symbols-outlined">map</i>
                 Haritada Gör
             </a>
         </div>
     </div>
 
-    <!-- Filtreleme ve Bilgi Barı -->
-    <div class="card border-0 shadow-sm rounded-4 mb-4 bg-light overflow-hidden animate__animated animate__fadeInUp">
-        <div class="card-body p-3 d-flex flex-wrap align-items-center justify-content-between gap-3">
-            <div class="d-flex align-items-center">
-                <div class="icon-box bg-white rounded-3 p-2 me-3 shadow-sm text-primary">
-                    <i class="material-symbols-outlined">info</i>
+    <!-- Info Card Premium -->
+    <div class="filter-card-premium animate__animated animate__fadeIn" style="padding: 16px 24px;">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+            <div class="d-flex align-items-center gap-3">
+                <div class="update-badge" style="padding: 8px 16px;">
+                    <i class="material-symbols-outlined">local_gas_station</i>
+                    <?php echo count($stations); ?> istasyon bulundu
                 </div>
-                <span class="fw-semibold">Toplam <?php echo count($stations); ?> istasyon bulundu.</span>
             </div>
-            <div class="small text-muted">
-                <i class="material-symbols-outlined fs-6 align-middle">update</i>
+            <div class="d-flex align-items-center gap-2" style="color: #6b7280; font-size: 0.9rem;">
+                <i class="material-symbols-outlined" style="font-size: 18px;">info</i>
                 Fiyatlar istasyon sahipleri tarafından güncellenmektedir.
             </div>
         </div>
@@ -172,24 +172,24 @@ require_once INCLUDES_PATH . '/header.php';
   "@type": "ItemList",
   "itemListElement": [
     <?php foreach ($stations as $index => $station): ?>
-                            {
-                              "@type": "ListItem",
-                              "position": <?php echo $index + 1; ?>,
-                              "item": {
-                                "@type": "LocalBusiness",
-                                "name": "<?php echo e($station['name']); ?>",
-                                "address": {
-                                  "@type": "PostalAddress",
-                                  "addressLocality": "<?php echo e($station['city']); ?>",
-                                  "addressRegion": "<?php echo e($station['district']); ?>",
-                                  "streetAddress": "<?php echo e($station['address']); ?>",
-                                  "addressCountry": "TR"
-                                },
-                                "telephone": "<?php echo e($station['phone']); ?>",
-                                "priceRange": "$$",
-                                "image": "<?php echo $station['image'] ? url($station['image']) : asset('img/default-station.jpg'); ?>"
-                              }
-                            }<?php echo $index < count($stations) - 1 ? ',' : ''; ?>
+                                {
+                                  "@type": "ListItem",
+                                  "position": <?php echo $index + 1; ?>,
+                                  "item": {
+                                    "@type": "LocalBusiness",
+                                    "name": "<?php echo e($station['name']); ?>",
+                                    "address": {
+                                      "@type": "PostalAddress",
+                                      "addressLocality": "<?php echo e($station['city']); ?>",
+                                      "addressRegion": "<?php echo e($station['district']); ?>",
+                                      "streetAddress": "<?php echo e($station['address']); ?>",
+                                      "addressCountry": "TR"
+                                    },
+                                    "telephone": "<?php echo e($station['phone']); ?>",
+                                    "priceRange": "$$",
+                                    "image": "<?php echo $station['image'] ? url($station['image']) : asset('img/default-station.jpg'); ?>"
+                                  }
+                                }<?php echo $index < count($stations) - 1 ? ',' : ''; ?>
     <?php endforeach; ?>
   ]
 }

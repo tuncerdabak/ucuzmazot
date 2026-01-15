@@ -301,7 +301,7 @@ $pageDescription = $pageDescription ?? 'Türkiye genelinde en ucuz mazot fiyatla
                 box-shadow: var(--shadow);
                 position: sticky;
                 top: 0;
-                z-index: 1000;
+                z-index: 1100;
             }
 
             .header-inner {
@@ -425,7 +425,7 @@ $pageDescription = $pageDescription ?? 'Türkiye genelinde en ucuz mazot fiyatla
                 border-top: 1px solid var(--gray-100);
                 box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
                 padding: var(--space-4);
-                z-index: 999;
+                z-index: 1101;
             }
 
             .mobile-menu.active {

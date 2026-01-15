@@ -101,9 +101,31 @@ function getUserLocation(callback) {
                 userMarker.setLatLng([userLocation.lat, userLocation.lng]);
             } else {
                 userMarker = L.marker([userLocation.lat, userLocation.lng], {
-                    icon: createUserIcon()
+                    icon: createUserIcon(),
+                    zIndexOffset: 10000
                 }).addTo(map);
-                userMarker.bindPopup('Konumunuz').openPopup();
+
+                const userPopupContent = `
+                    <div style="
+                        padding: 4px 10px;
+                        background: white;
+                        border-radius: 20px;
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                        font-family: inherit;
+                    ">
+                        <div style="width: 8px; height: 8px; background: #3b82f6; border-radius: 50%;"></div>
+                        <span style="font-weight: 600; font-size: 13px; color: #1f2937;">Sizin Konumunuz</span>
+                    </div>
+                `;
+
+                userMarker.bindPopup(userPopupContent, {
+                    className: 'user-location-popup',
+                    closeButton: false,
+                    offset: [0, -10]
+                }).openPopup();
             }
 
             if (callback) callback(userLocation);
@@ -139,14 +161,20 @@ function createUserIcon() {
     return L.divIcon({
         className: 'user-marker',
         html: `
-            <div style="
-                width: 20px;
-                height: 20px;
-                background: #3b82f6;
-                border: 3px solid white;
-                border-radius: 50%;
-                box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-            "></div>
+            <div class="user-marker-pulse">
+                <div style="
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 20px;
+                    height: 20px;
+                    background: #3b82f6;
+                    border: 3px solid white;
+                    border-radius: 50%;
+                    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+                    z-index: 2;
+                "></div>
+            </div>
         `,
         iconSize: [20, 20],
         iconAnchor: [10, 10]

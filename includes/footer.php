@@ -75,7 +75,8 @@
             <p>&copy;
                 <?= date('Y') ?>
                 <?= SITE_NAME ?>. Tüm hakları saklıdır.
-                <span class="system-version" style="margin-left: 10px; opacity: 0.7;"><?= SYSTEM_VERSION ?></span>
+                <span class="system-version"
+                    style="margin-left: 10px; opacity: 1; color: var(--primary-light); font-weight: 600;"><?= SYSTEM_VERSION ?></span>
             </p>
         </div>
     </div>

@@ -78,6 +78,9 @@
                 <span class="system-version"
                     style="margin-left: 10px; opacity: 1; color: var(--primary-light); font-weight: 600;"><?= SYSTEM_VERSION ?></span>
             </p>
+            <p class="attribution" style="font-size: 0.75rem; opacity: 0.6; margin-top: 5px;">
+                Tmeed Bilişim - Tuncer DABAK
+            </p>
         </div>
     </div>
 </footer>

@@ -61,5 +61,8 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             <i class="fas fa-sign-out-alt"></i>
             <span>Çıkış Yap</span>
         </a>
+        <div class="sidebar-version">
+            <?= SYSTEM_VERSION ?>
+        </div>
     </div>
 </aside>

@@ -111,6 +111,9 @@
     .table {
         display: block !important;
         border: none !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
     }
 
     .data-table thead,
@@ -126,6 +129,7 @@
     .table td {
         display: block !important;
         width: 100% !important;
+        box-sizing: border-box !important;
     }
 
     .data-table tr,

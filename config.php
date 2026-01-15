@@ -61,6 +61,7 @@ define('JWT_EXPIRY', 604800);               // 7 gün
 
 // Versiyon Kontrolü (CSS/JS Cache Busting için)
 define('ASSET_VERSION', '1.0.6');
+define('SYSTEM_VERSION', 'v1.0.1');
 
 // =====================================================
 // FİYAT KONTROL AYARLARI

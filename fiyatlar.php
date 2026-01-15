@@ -88,75 +88,70 @@ $pageTitle = 'Güncel Akaryakıt Fiyatları - ' . SITE_NAME;
 require_once INCLUDES_PATH . '/header.php';
 ?>
 
-<div class="container py-5">
-    <!-- Header Section -->
-    <div class="row mb-4 align-items-center animate__animated animate__fadeIn">
-        <div class="col-md-8">
-            <h1 class="h2 fw-bold text-gradient mb-1">En Ucuz Mazotu Bul</h1>
-            <p class="text-muted mb-0">Türkiye genelindeki akaryakıt istasyonlarını karşılaştırın, tasarruf edin.</p>
-        </div>
-        <div class="col-md-4 text-md-end d-none d-md-block">
-            <div class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 shadow-sm">
-                <i class="material-symbols-outlined align-middle me-1">update</i>
+
+<div class="container py-4">
+    <!-- Premium Page Header -->
+    <div class="page-header-premium animate__animated animate__fadeIn">
+        <div
+            class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
+            <div>
+                <h1>En Ucuz Mazotu Bul</h1>
+                <p class="subtitle">Türkiye genelindeki akaryakıt istasyonlarını karşılaştırın, tasarruf edin.</p>
+            </div>
+            <div class="update-badge">
+                <i class="material-symbols-outlined">schedule</i>
                 Son Güncelleme: <?= date('d.m.Y') ?>
             </div>
         </div>
     </div>
 
-    <!-- Filtreler -->
-    <div class="card border-0 shadow-sm rounded-4 mb-4 animate__animated animate__fadeIn">
-        <div class="card-body p-3">
-            <form action="" method="GET" class="row g-2 align-items-end">
-                <div class="col-md-3 col-sm-6">
-                    <label class="form-label small fw-bold text-muted mb-1">Şehir</label>
-                    <div class="input-group input-group-sm">
-                        <span class="input-group-text bg-light border-0"><i
-                                class="material-symbols-outlined fs-6">location_city</i></span>
-                        <select name="city" class="form-select border-0 bg-light" onchange="this.form.submit()">
-                            <option value="">Tüm Türkiye</option>
-                            <?php foreach ($cities as $c): ?>
-                                <option value="<?= e($c['city']) ?>" <?= $city === $c['city'] ? 'selected' : '' ?>>
-                                    <?= e($c['city']) ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-sm-6">
-                    <label class="form-label small fw-bold text-muted mb-1">İstasyon Ara</label>
-                    <div class="input-group input-group-sm">
-                        <span class="input-group-text bg-light border-0"><i
-                                class="material-symbols-outlined fs-6">search</i></span>
-                        <input type="text" name="q" class="form-control border-0 bg-light"
-                            placeholder="İsim veya ilçe..." value="<?= e($search) ?>">
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-sm-6">
-                    <label class="form-label small fw-bold text-muted mb-1">Sıralama</label>
-                    <div class="input-group input-group-sm">
-                        <span class="input-group-text bg-light border-0"><i
-                                class="material-symbols-outlined fs-6">sort</i></span>
-                        <select name="sort" class="form-select border-0 bg-light" onchange="this.form.submit()">
-                            <option value="price_asc" <?= $sort === 'price_asc' ? 'selected' : '' ?>>En Ucuz Mazot</option>
-                            <option value="near_me" <?= $sort === 'near_me' ? 'selected' : '' ?>>Yanımdaki En Ucuzlar
+    <!-- Premium Filter Card -->
+    <div class="filter-card-premium animate__animated animate__fadeIn">
+        <form action="" method="GET" class="filter-grid">
+            <div class="filter-group">
+                <label>Şehir</label>
+                <div class="filter-input-wrapper">
+                    <i class="material-symbols-outlined filter-icon">location_city</i>
+                    <select name="city" onchange="this.form.submit()">
+                        <option value="">Tüm Türkiye</option>
+                        <?php foreach ($cities as $c): ?>
+                            <option value="<?= e($c['city']) ?>" <?= $city === $c['city'] ? 'selected' : '' ?>>
+                                <?= e($c['city']) ?>
                             </option>
-                            <option value="date_desc" <?= $sort === 'date_desc' ? 'selected' : '' ?>>En Yeni Güncel
-                            </option>
-                            <option value="rating_desc" <?= $sort === 'rating_desc' ? 'selected' : '' ?>>Müşteri Puanı
-                            </option>
-                        </select>
-                    </div>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
+            </div>
 
-                <div class="col-md-3 col-sm-6">
-                    <button type="submit" class="btn btn-primary btn-sm w-100 rounded-pill">
-                        <i class="material-symbols-outlined fs-6 me-1">filter_alt</i> Sonuçları Getir
-                    </button>
+            <div class="filter-group">
+                <label>İstasyon Ara</label>
+                <div class="filter-input-wrapper">
+                    <i class="material-symbols-outlined filter-icon">search</i>
+                    <input type="text" name="q" placeholder="İsim veya ilçe..." value="<?= e($search) ?>">
                 </div>
-            </form>
-        </div>
+            </div>
+
+            <div class="filter-group">
+                <label>Sıralama</label>
+                <div class="filter-input-wrapper">
+                    <i class="material-symbols-outlined filter-icon">sort</i>
+                    <select name="sort" onchange="this.form.submit()">
+                        <option value="price_asc" <?= $sort === 'price_asc' ? 'selected' : '' ?>>En Ucuz Mazot</option>
+                        <option value="near_me" <?= $sort === 'near_me' ? 'selected' : '' ?>>Yanımdaki En Ucuzlar</option>
+                        <option value="date_desc" <?= $sort === 'date_desc' ? 'selected' : '' ?>>En Yeni Güncel</option>
+                        <option value="rating_desc" <?= $sort === 'rating_desc' ? 'selected' : '' ?>>Müşteri Puanı</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <label>&nbsp;</label>
+                <button type="submit" class="filter-btn-premium">
+                    <i class="material-symbols-outlined">filter_alt</i>
+                    Sonuçları Getir
+                </button>
+            </div>
+        </form>
     </div>
 
     <!-- İstasyon Listesi -->

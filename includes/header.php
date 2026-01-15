@@ -17,9 +17,9 @@ $pageDescription = $pageDescription ?? 'Türkiye genelinde en ucuz mazot fiyatla
 <head>
     <script>
         // Flash of light mode prevention
-        (function() {
-            const savedTheme = localStorage.getItem('theme') || 
-                              (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        (function () {
+            const savedTheme = localStorage.getItem('theme') ||
+                (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
             document.documentElement.setAttribute('data-theme', savedTheme);
         })();
     </script>
@@ -34,7 +34,7 @@ $pageDescription = $pageDescription ?? 'Türkiye genelinde en ucuz mazot fiyatla
     </script>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- SEO Meta -->

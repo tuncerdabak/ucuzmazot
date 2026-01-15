@@ -104,28 +104,6 @@ function getUserLocation(callback) {
                     icon: createUserIcon(),
                     zIndexOffset: 10000
                 }).addTo(map);
-
-                const userPopupContent = `
-                    <div style="
-                        padding: 4px 10px;
-                        background: white;
-                        border-radius: 20px;
-                        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                        display: flex;
-                        align-items: center;
-                        gap: 8px;
-                        font-family: inherit;
-                    ">
-                        <div style="width: 8px; height: 8px; background: #3b82f6; border-radius: 50%;"></div>
-                        <span style="font-weight: 600; font-size: 13px; color: #1f2937;">Sizin Konumunuz</span>
-                    </div>
-                `;
-
-                userMarker.bindPopup(userPopupContent, {
-                    className: 'user-location-popup',
-                    closeButton: false,
-                    offset: [0, -10]
-                }).openPopup();
             }
 
             if (callback) callback(userLocation);

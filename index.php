@@ -52,6 +52,18 @@ require_once INCLUDES_PATH . '/header.php';
 ?>
 
 <div class="home-page">
+    <!-- App Download Banner (Mobile Only) -->
+    <div class="app-download-banner show-on-mobile">
+        <div class="banner-content">
+            <i class="fas fa-mobile-alt"></i>
+            <div class="banner-text">
+                <strong>Hemen Başla!</strong>
+                <span>Fiyatlar cebine gelsin.</span>
+            </div>
+            <a href="/indir.php" class="btn btn-sm btn-primary">Uygulamayı İndir</a>
+        </div>
+    </div>
+
     <!-- Harita Bölümü -->
     <div class="map-section">
         <div id="map" class="map-container"></div>
@@ -731,6 +743,40 @@ require_once INCLUDES_PATH . '/header.php';
     @media (max-width: 768px) {
         .home-page {
             flex-direction: column;
+        }
+
+        .app-download-banner {
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-100);
+            padding: var(--space-3) var(--space-4);
+            z-index: 1002;
+        }
+
+        .banner-content {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .banner-content i {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .banner-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .banner-text strong {
+            font-size: 0.875rem;
+            color: var(--gray-900);
+        }
+
+        .banner-text span {
+            font-size: 0.75rem;
+            color: var(--gray-500);
         }
 
         .map-section {

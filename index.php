@@ -550,25 +550,28 @@ require_once INCLUDES_PATH . '/header.php';
     /* İstasyon Kartı */
     .station-card {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         gap: var(--space-3);
-        padding: var(--space-3);
+        padding: 15px;
         background: var(--white);
-        border: 2px solid transparent;
-        border-radius: var(--radius-lg);
-        margin-bottom: var(--space-2);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        border-radius: 16px;
+        margin-bottom: var(--space-3);
         cursor: pointer;
-        transition: all var(--transition);
+        transition: all 0.3s ease;
+        position: relative;
     }
 
     .station-card:hover {
-        border-color: var(--gray-200);
-        box-shadow: var(--shadow);
+        border-color: var(--primary-light);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        transform: translateY(-2px);
     }
 
     .station-card.active {
         border-color: var(--primary);
-        background: rgba(37, 99, 235, 0.05);
+        background: rgba(37, 99, 235, 0.03);
+        box-shadow: 0 10px 30px rgba(37, 99, 235, 0.1);
     }
 
     .station-rank {
@@ -642,13 +645,20 @@ require_once INCLUDES_PATH . '/header.php';
         display: flex;
         flex-direction: column;
         align-items: flex-end;
-        gap: 4px;
+        gap: 6px;
+        flex-shrink: 0;
     }
 
     .price-row {
         display: flex;
         align-items: center;
-        gap: 8px;
+        justify-content: flex-end;
+        gap: 6px;
+    }
+
+    .price-row.truck-price {
+        transform: scale(0.95);
+        transform-origin: right;
     }
 
     .fuel-label {
@@ -657,16 +667,22 @@ require_once INCLUDES_PATH . '/header.php';
     }
 
     .station-price .price-tag {
-        font-size: 1rem;
-        font-weight: 700;
-        padding: 2px 6px;
-        background: var(--gray-100);
-        border-radius: var(--radius-sm);
+        font-size: 1.1rem;
+        font-weight: 800;
+        padding: 4px 10px;
+        background: var(--gray-50);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        border-radius: 10px;
+        color: var(--gray-800);
+        min-width: 85px;
+        text-align: right;
     }
 
     .station-price .price-tag.cheap {
-        background: #dbeafe;
-        color: #1e40af;
+        background: white;
+        color: var(--primary);
+        border-color: var(--primary-light);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
     }
 
     .price-date {

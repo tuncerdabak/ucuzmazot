@@ -987,7 +987,7 @@ textarea.form-control {
 
 .station-card-grid {
     display: grid;
-    grid-template-columns: 350px 1fr 200px;
+    grid-template-columns: 320px 1fr 180px;
     gap: var(--space-4);
     align-items: center;
 }
@@ -1020,21 +1020,41 @@ textarea.form-control {
 .price-display-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-2);
+    gap: 10px;
 }
 
 .price-box {
     background: var(--gray-50);
-    border: 1px solid rgba(0, 0, 0, 0.03);
-    border-radius: var(--radius);
-    padding: var(--space-3) var(--space-2);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    border-radius: 12px;
+    padding: 12px 8px;
     text-align: center;
     transition: all var(--transition);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 65px;
 }
 
 .price-box.primary-price {
     background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(79, 70, 229, 0.05));
     border-color: rgba(37, 99, 235, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.cheapest-badge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--success);
+    color: white;
+    font-size: 0.6rem;
+    font-weight: 800;
+    padding: 2px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .price-box .fuel-type {
@@ -1060,6 +1080,7 @@ textarea.form-control {
 
 .price-box.primary-price .price-val {
     color: var(--primary);
+    font-size: 1.3rem;
 }
 
 .price-val .blurred {
@@ -1071,16 +1092,42 @@ textarea.form-control {
 @media (max-width: 991px) {
     .station-card-grid {
         grid-template-columns: 1fr;
-    }
-
-    .price-display-grid {
-        background: var(--gray-50);
-        padding: var(--space-3);
-        border-radius: var(--radius);
+        gap: 15px;
     }
 
     .station-info-content {
-        margin-bottom: var(--space-2);
+        margin-bottom: 5px;
+    }
+
+    .price-display-grid {
+        background: transparent;
+        padding: 0;
+        grid-template-columns: 1.2fr 1fr 1fr;
+        gap: 8px;
+    }
+
+    .price-box {
+        min-height: 60px;
+        padding: 8px 4px;
+    }
+
+    .price-box.primary-price {
+        border-width: 2px;
+        background: white;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08);
+    }
+
+    .price-box.primary-price .price-val {
+        font-size: 1.25rem;
+    }
+
+    .price-box .fuel-type {
+        font-size: 0.65rem;
+        margin-bottom: 0;
+    }
+
+    .price-box .price-val {
+        font-size: 1.05rem;
     }
 
     .station-actions-cell {
@@ -1088,8 +1135,41 @@ textarea.form-control {
         justify-content: space-between;
         align-items: center;
         border-top: 1px solid rgba(0, 0, 0, 0.05);
-        padding-top: var(--space-3);
-        margin-top: var(--space-1);
+        padding-top: 12px;
+        margin-top: 5px;
+    }
+}
+
+@media (max-width: 480px) {
+    .station-card-grid {
+        padding: 12px;
+    }
+
+    .price-display-grid {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+
+    .price-box {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        min-height: auto;
+        padding: 10px 15px;
+        text-align: left;
+    }
+
+    .price-box .fuel-type {
+        margin-bottom: 0;
+        font-size: 0.75rem;
+    }
+
+    .price-box .price-val {
+        font-size: 1.15rem;
+    }
+
+    .price-box.primary-price .price-val {
+        font-size: 1.35rem;
     }
 }
 

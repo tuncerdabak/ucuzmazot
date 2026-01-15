@@ -105,8 +105,8 @@ require_once INCLUDES_PATH . '/header.php';
                     <div class="input-group">
                         <span class="input-group-text bg-light border-0"><i
                                 class="material-symbols-outlined fs-5">search</i></span>
-                        <input type="text" name="q" class="form-control border-0 bg-light" placeholder="İsim veya ilçe..."
-                            value="<?= e($search) ?>">
+                        <input type="text" name="q" class="form-control border-0 bg-light"
+                            placeholder="İsim veya ilçe..." value="<?= e($search) ?>">
                     </div>
                 </div>
 
@@ -117,8 +117,10 @@ require_once INCLUDES_PATH . '/header.php';
                                 class="material-symbols-outlined fs-5">sort</i></span>
                         <select name="sort" class="form-select border-0 bg-light" onchange="this.form.submit()">
                             <option value="price_asc" <?= $sort === 'price_asc' ? 'selected' : '' ?>>En Ucuz Mazot</option>
-                            <option value="date_desc" <?= $sort === 'date_desc' ? 'selected' : '' ?>>En Yeni Güncellenen</option>
-                            <option value="rating_desc" <?= $sort === 'rating_desc' ? 'selected' : '' ?>>Müşteri Puanı</option>
+                            <option value="date_desc" <?= $sort === 'date_desc' ? 'selected' : '' ?>>En Yeni Güncellenen
+                            </option>
+                            <option value="rating_desc" <?= $sort === 'rating_desc' ? 'selected' : '' ?>>Müşteri Puanı
+                            </option>
                         </select>
                     </div>
                 </div>
@@ -154,10 +156,15 @@ require_once INCLUDES_PATH . '/header.php';
         <?php endif; ?>
 
         <div class="row g-4 animate__animated animate__fadeInUp">
-            <?php foreach ($stations as $station): 
+            <?php
+            // En ucuz mazot fiyatını bul (Badge için)
+            $minDiesel = min(array_filter(array_column($stations, 'diesel_price')) ?: [0]);
+
+            foreach ($stations as $station):
                 $logo = getBrandLogo($station['brand']);
                 $isGuest = !isLoggedIn();
-                
+                $isCheapest = ($station['diesel_price'] > 0 && $station['diesel_price'] == $minDiesel);
+
                 if ($isGuest) {
                     $pDiesel = formatObfuscatedPrice($station['diesel_price']);
                     $pGas = formatObfuscatedPrice($station['gasoline_price']);
@@ -167,7 +174,7 @@ require_once INCLUDES_PATH . '/header.php';
                     $pGas = ['visible' => formatPrice($station['gasoline_price']) . ' ₺', 'blurred' => ''];
                     $pLpg = ['visible' => formatPrice($station['lpg_price']) . ' ₺', 'blurred' => ''];
                 }
-            ?>
+                ?>
                 <div class="col-12">
                     <div class="card station-card rounded-4 border-0 shadow-sm overflow-hidden mb-3">
                         <div class="card-body p-4">
@@ -186,7 +193,8 @@ require_once INCLUDES_PATH . '/header.php';
                                         </div>
                                         <div>
                                             <h4 class="fw-bold mb-1">
-                                                <a href="istasyon-detay.php?id=<?= $station['id'] ?>" class="text-dark text-decoration-none hover-primary">
+                                                <a href="istasyon-detay.php?id=<?= $station['id'] ?>"
+                                                    class="text-dark text-decoration-none hover-primary">
                                                     <?= e($station['name']) ?>
                                                 </a>
                                             </h4>
@@ -210,9 +218,13 @@ require_once INCLUDES_PATH . '/header.php';
                                     <div class="price-display-grid">
                                         <!-- Mazot -->
                                         <div class="price-box primary-price">
+                                            <?php if ($isCheapest): ?>
+                                                <div class="cheapest-badge">EN UCUZ</div>
+                                            <?php endif; ?>
                                             <span class="fuel-type">Mazot</span>
                                             <span class="price-val">
-                                                <?= $pDiesel['visible'] ?><span class="blurred"><?= $pDiesel['blurred'] ?></span>
+                                                <?= $pDiesel['visible'] ?><span
+                                                    class="blurred"><?= $pDiesel['blurred'] ?></span>
                                             </span>
                                         </div>
                                         <!-- Benzin -->
@@ -240,12 +252,13 @@ require_once INCLUDES_PATH . '/header.php';
                                             <?= timeAgo($station['price_updated_at']) ?>
                                         </div>
                                         <div class="d-flex gap-2 justify-content-end">
-                                            <a href="istasyon-detay.php?id=<?= $station['id'] ?>" class="btn btn-light rounded-pill px-3">
+                                            <a href="istasyon-detay.php?id=<?= $station['id'] ?>"
+                                                class="btn btn-light rounded-pill px-3">
                                                 Detay
                                             </a>
-                                            <a href="https://www.google.com/maps/dir/?api=1&destination=<?= $station['lat'] ?>,<?= $station['lng'] ?>" 
-                                               target="_blank" class="btn btn-primary rounded-pill px-4">
-                                               Git
+                                            <a href="https://www.google.com/maps/dir/?api=1&destination=<?= $station['lat'] ?>,<?= $station['lng'] ?>"
+                                                target="_blank" class="btn btn-primary rounded-pill px-4">
+                                                Git
                                             </a>
                                         </div>
                                         <div class="small text-muted mt-2 d-lg-none">

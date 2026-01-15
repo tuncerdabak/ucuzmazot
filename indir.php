@@ -14,10 +14,16 @@ include 'includes/header.php';
             </div>
 
             <div class="download-actions">
-                <a href="/android_uygulama/ucuzmazot_v1.apk" class="btn btn-primary btn-lg download-btn">
-                    <i class="fab fa-android"></i> Android APK İndir (V1.0.0)
+                <a href="/android_uygulama/ucuzmazot_v1.apk" class="btn btn-primary btn-lg download-btn pulse-button">
+                    <i class="fab fa-android"></i> Android APK İndir (<?= SYSTEM_VERSION ?>)
                 </a>
-                <p class="file-info text-muted">Boyut: ~5.4 MB | Versiyon: 1.0.0</p>
+                <p class="file-info text-muted">Boyut: ~1 MB | Versiyon: <?= SYSTEM_VERSION ?></p>
+            </div>
+
+            <div class="navigation-actions mt-4">
+                <a href="<?= url('/') ?>" class="btn btn-outline btn-sm">
+                    <i class="fas fa-arrow-left"></i> Ana Sayfaya Dön
+                </a>
             </div>
 
             <div class="install-guide">
@@ -103,6 +109,25 @@ include 'includes/header.php';
         margin-bottom: var(--space-3);
         font-size: 1.25rem;
         padding: var(--space-4);
+        position: relative;
+    }
+
+    .pulse-button {
+        animation: pulse-animation 2s infinite;
+    }
+
+    @keyframes pulse-animation {
+        0% {
+            box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4);
+        }
+
+        70% {
+            box-shadow: 0 0 0 15px rgba(37, 99, 235, 0);
+        }
+
+        100% {
+            box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
+        }
     }
 
     .file-info {

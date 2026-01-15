@@ -167,6 +167,7 @@
 @media (max-width: 1024px) {
     .content-grid {
         padding: var(--space-4);
+        padding-bottom: 100px; /* Sayfa sonuna boşluk ekle (Mobil kaydet butonu için) */
         gap: var(--space-4);
     }
 

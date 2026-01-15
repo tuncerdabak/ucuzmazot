@@ -102,7 +102,8 @@ require_once __DIR__ . '/includes/header.php';
     </a>
 </div>
 
-<div class="card">
+<div class="content-grid">
+    <div class="card">
     <div class="card-body">
         <?php if (!empty($errors)): ?>
             <div class="alert alert-danger mb-4">
@@ -261,6 +262,7 @@ require_once __DIR__ . '/includes/header.php';
                 <i class="fas fa-save"></i> Kaydet ve Oluştur
             </button>
         </form>
+    </div>
     </div>
 </div>
 

@@ -245,7 +245,6 @@ define('TURKEY_CITIES', [
 define('FUEL_BRANDS', [
     '7 Kıta',
     'Alpet',
-    'Astpet',
     'Aytemiz',
     'Bpet',
     'Bestoil',
@@ -277,7 +276,7 @@ define('FUEL_BRANDS', [
     'Socar',
     'Soil',
     'Sunpet',
-    'ŞahhOil',
+    'SahhOil',
     'Teco',
     'Termopet',
     'Total',

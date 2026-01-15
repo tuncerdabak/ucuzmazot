@@ -32,18 +32,43 @@ require_once INCLUDES_PATH . '/header.php';
 </div>
 
 <style>
+    body {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('banner.jpg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        min-height: 100vh;
+    }
+
     .py-12 {
         padding-top: var(--space-12);
         padding-bottom: var(--space-12);
     }
 
     .content-box {
-        background: var(--white);
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
         padding: var(--space-8);
         border-radius: var(--radius-xl);
-        box-shadow: var(--shadow-lg);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
         max-width: 800px;
         margin: 0 auto;
+    }
+
+    /* Dark mode adjustments for glass card if needed */
+    [data-theme="dark"] .content-box {
+        background: rgba(31, 41, 55, 0.9);
+        color: var(--gray-100);
+    }
+
+    [data-theme="dark"] .content-box h1,
+    [data-theme="dark"] .content-box h2,
+    [data-theme="dark"] .content-box .lead {
+        color: var(--white);
+    }
+
+    [data-theme="dark"] .content-box p {
+        color: var(--gray-300);
     }
 
     .content-box h1 {

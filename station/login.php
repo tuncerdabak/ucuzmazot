@@ -121,7 +121,10 @@ $pageTitle = 'İstasyon Girişi - ' . SITE_NAME;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--gradient-dark);
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../banner.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             padding: var(--space-4);
         }
 

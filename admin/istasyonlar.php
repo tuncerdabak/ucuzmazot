@@ -107,149 +107,150 @@ require_once __DIR__ . '/includes/header.php';
     </div>
 </header>
 
-<?php if ($flash = getFlash()): ?>
-    <div class="alert alert-<?= e($flash['type']) ?>">
-        <i class="fas fa-check-circle"></i>
-        <?= e($flash['message']) ?>
+<div class="content-grid">
+    <?php if ($flash = getFlash()): ?>
+        <div class="alert alert-<?= e($flash['type']) ?>">
+            <i class="fas fa-check-circle"></i>
+            <?= e($flash['message']) ?>
+        </div>
+    <?php endif; ?>
+
+    <!-- Filtreler -->
+    <div class="filter-bar">
+        <select class="form-control" onchange="applyFilter('filter', this.value)">
+            <option value="all" <?= $filter === 'all' ? 'selected' : '' ?>>Tümü</option>
+            <option value="pending" <?= $filter === 'pending' ? 'selected' : '' ?>>Onay Bekliyor</option>
+            <option value="approved" <?= $filter === 'approved' ? 'selected' : '' ?>>Onaylı</option>
+            <option value="inactive" <?= $filter === 'inactive' ? 'selected' : '' ?>>Pasif</option>
+        </select>
+
+        <select class="form-control select2" onchange="applyFilter('city', this.value)">
+            <option value="">Tüm Şehirler</option>
+            <?php foreach ($cities as $c): ?>
+                <option value="<?= e($c['city']) ?>" <?= $city === $c['city'] ? 'selected' : '' ?>>
+                    <?= e($c['city']) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+
+        <input type="text" class="form-control search-input" placeholder="İstasyon ara..." value="<?= e($search) ?>"
+            id="searchInput">
+        <button onclick="applySearch()" class="btn btn-primary">
+            <i class="fas fa-search"></i>
+        </button>
     </div>
-<?php endif; ?>
 
-<!-- Filtreler -->
-<div class="filter-bar">
-    <select class="form-control" onchange="applyFilter('filter', this.value)">
-        <option value="all" <?= $filter === 'all' ? 'selected' : '' ?>>Tümü</option>
-        <option value="pending" <?= $filter === 'pending' ? 'selected' : '' ?>>Onay Bekliyor</option>
-        <option value="approved" <?= $filter === 'approved' ? 'selected' : '' ?>>Onaylı</option>
-        <option value="inactive" <?= $filter === 'inactive' ? 'selected' : '' ?>>Pasif</option>
-    </select>
-
-    <select class="form-control select2" onchange="applyFilter('city', this.value)">
-        <option value="">Tüm Şehirler</option>
-        <?php foreach ($cities as $c): ?>
-            <option value="<?= e($c['city']) ?>" <?= $city === $c['city'] ? 'selected' : '' ?>>
-                <?= e($c['city']) ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
-
-    <input type="text" class="form-control search-input" placeholder="İstasyon ara..." value="<?= e($search) ?>"
-        id="searchInput">
-    <button onclick="applySearch()" class="btn btn-primary">
-        <i class="fas fa-search"></i>
-    </button>
-</div>
-
-<!-- Tablo -->
-<div class="card">
-    <div class="card-body" style="padding: 0;">
-        <div class="table-responsive">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>İstasyon</th>
-                        <th>Şehir</th>
-                        <th>Fiyat</th>
-                        <th>Durum</th>
-                        <th>Tarih</th>
-                        <th>İşlemler</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($stations)): ?>
+    <!-- Tablo -->
+    <div class="card">
+        <div class="card-body" style="padding: 0;">
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
                         <tr>
-                            <td colspan="6" class="text-center text-gray p-5">
-                                İstasyon bulunamadı.
-                            </td>
+                            <th>İstasyon</th>
+                            <th>Şehir</th>
+                            <th>Fiyat</th>
+                            <th>Durum</th>
+                            <th>Tarih</th>
+                            <th>İşlemler</th>
                         </tr>
-                    <?php else: ?>
-                        <?php foreach ($stations as $st): ?>
+                    </thead>
+                    <tbody>
+                        <?php if (empty($stations)): ?>
                             <tr>
-                                <td data-label="İstasyon">
-                                    <strong>
-                                        <?= e($st['name']) ?>
-                                    </strong>
-                                    <?php if ($st['brand']): ?>
-                                        <br><small class="text-gray">
-                                            <?= e($st['brand']) ?>
-                                        </small>
-                                    <?php endif; ?>
-                                </td>
-                                <td data-label="Şehir">
-                                    <?= e($st['city']) ?>
-                                </td>
-                                <td data-label="Fiyat">
-                                    <?= $st['current_price'] ? formatPrice($st['current_price']) : '-' ?>
-                                </td>
-                                <td data-label="Durum">
-                                    <?php if (!$st['is_active']): ?>
-                                        <span class="status-badge rejected">Pasif</span>
-                                    <?php elseif (!$st['is_approved']): ?>
-                                        <span class="status-badge pending">Onay Bekliyor</span>
-                                    <?php else: ?>
-                                        <span class="status-badge approved">Onaylı</span>
-                                    <?php endif; ?>
-                                </td>
-                                <td data-label="Tarih">
-                                    <?= formatDate($st['created_at'], 'd.m.Y') ?>
-                                </td>
-                                <td data-label="İşlemler" class="actions">
-                                    <?php if (!$st['is_approved']): ?>
-                                        <form method="POST" style="display:inline;">
-                                            <input type="hidden" name="csrf_token" value="<?= csrfToken() ?>">
-                                            <input type="hidden" name="station_id" value="<?= $st['id'] ?>">
-                                            <input type="hidden" name="action" value="approve">
-                                            <button type="submit" class="btn btn-sm btn-success" title="Onayla">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        </form>
-                                    <?php endif; ?>
-
-                                    <?php if ($st['is_active']): ?>
-                                        <form method="POST" style="display:inline;">
-                                            <input type="hidden" name="csrf_token" value="<?= csrfToken() ?>">
-                                            <input type="hidden" name="station_id" value="<?= $st['id'] ?>">
-                                            <input type="hidden" name="action" value="deactivate">
-                                            <button type="submit" class="btn btn-sm btn-danger" title="Pasifleştir">
-                                                <i class="fas fa-ban"></i>
-                                            </button>
-                                        </form>
-                                    <?php else: ?>
-                                        <form method="POST" style="display:inline;">
-                                            <input type="hidden" name="csrf_token" value="<?= csrfToken() ?>">
-                                            <input type="hidden" name="station_id" value="<?= $st['id'] ?>">
-                                            <input type="hidden" name="action" value="activate">
-                                            <button type="submit" class="btn btn-sm btn-success" title="Aktifleştir">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        </form>
-                                        </form>
-                                    <?php endif; ?>
-
-                                    <a href="istasyon-duzenle.php?id=<?= $st['id'] ?>" class="btn btn-sm btn-primary"
-                                        title="Düzenle">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-
-                                    <a href="<?= url('/istasyon-detay.php?id=' . $st['id']) ?>" class="btn btn-sm btn-outline"
-                                        target="_blank" title="Görüntüle">
-                                        <i class="fas fa-external-link-alt"></i>
-                                    </a>
+                                <td colspan="6" class="text-center text-gray p-5">
+                                    İstasyon bulunamadı.
                                 </td>
                             </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+                        <?php else: ?>
+                            <?php foreach ($stations as $st): ?>
+                                <tr>
+                                    <td data-label="İstasyon">
+                                        <strong>
+                                            <?= e($st['name']) ?>
+                                        </strong>
+                                        <?php if ($st['brand']): ?>
+                                            <br><small class="text-gray">
+                                                <?= e($st['brand']) ?>
+                                            </small>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td data-label="Şehir">
+                                        <?= e($st['city']) ?>
+                                    </td>
+                                    <td data-label="Fiyat">
+                                        <?= $st['current_price'] ? formatPrice($st['current_price']) : '-' ?>
+                                    </td>
+                                    <td data-label="Durum">
+                                        <?php if (!$st['is_active']): ?>
+                                            <span class="status-badge rejected">Pasif</span>
+                                        <?php elseif (!$st['is_approved']): ?>
+                                            <span class="status-badge pending">Onay Bekliyor</span>
+                                        <?php else: ?>
+                                            <span class="status-badge approved">Onaylı</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td data-label="Tarih">
+                                        <?= formatDate($st['created_at'], 'd.m.Y') ?>
+                                    </td>
+                                    <td data-label="İşlemler" class="actions">
+                                        <?php if (!$st['is_approved']): ?>
+                                            <form method="POST" style="display:inline;">
+                                                <input type="hidden" name="csrf_token" value="<?= csrfToken() ?>">
+                                                <input type="hidden" name="station_id" value="<?= $st['id'] ?>">
+                                                <input type="hidden" name="action" value="approve">
+                                                <button type="submit" class="btn btn-sm btn-success" title="Onayla">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            </form>
+                                        <?php endif; ?>
+
+                                        <?php if ($st['is_active']): ?>
+                                            <form method="POST" style="display:inline;">
+                                                <input type="hidden" name="csrf_token" value="<?= csrfToken() ?>">
+                                                <input type="hidden" name="station_id" value="<?= $st['id'] ?>">
+                                                <input type="hidden" name="action" value="deactivate">
+                                                <button type="submit" class="btn btn-sm btn-danger" title="Pasifleştir">
+                                                    <i class="fas fa-ban"></i>
+                                                </button>
+                                            </form>
+                                        <?php else: ?>
+                                            <form method="POST" style="display:inline;">
+                                                <input type="hidden" name="csrf_token" value="<?= csrfToken() ?>">
+                                                <input type="hidden" name="station_id" value="<?= $st['id'] ?>">
+                                                <input type="hidden" name="action" value="activate">
+                                                <button type="submit" class="btn btn-sm btn-success" title="Aktifleştir">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            </form>
+                                        <?php endif; ?>
+
+                                        <a href="istasyon-duzenle.php?id=<?= $st['id'] ?>" class="btn btn-sm btn-primary"
+                                            title="Düzenle">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+
+                                        <a href="<?= url('/istasyon-detay.php?id=' . $st['id']) ?>" class="btn btn-sm btn-outline"
+                                            target="_blank" title="Görüntüle">
+                                            <i class="fas fa-external-link-alt"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- Sayfalama -->
-<?php if ($total > $perPage): ?>
-    <div class="mt-4">
-        <?= paginate($total, $perPage, $page, '/admin/istasyonlar.php') ?>
-    </div>
-<?php endif; ?>
+    <!-- Sayfalama -->
+    <?php if ($total > $perPage): ?>
+        <div class="mt-4">
+            <?= paginate($total, $perPage, $page, '/admin/istasyonlar.php') ?>
+        </div>
+    <?php endif; ?>
+</div>
 
 <script>
     function applyFilter(key, value) {

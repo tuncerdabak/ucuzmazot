@@ -18,8 +18,7 @@ $pageDescription = $pageDescription ?? 'Türkiye genelinde en ucuz mazot fiyatla
     <script>
         // Flash of light mode prevention
         (function () {
-            const savedTheme = localStorage.getItem('theme') ||
-                (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            const savedTheme = localStorage.getItem('theme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
         })();
     </script>

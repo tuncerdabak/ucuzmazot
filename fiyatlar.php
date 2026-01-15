@@ -90,11 +90,10 @@ require_once INCLUDES_PATH . '/header.php';
 
 <div class="container py-5">
     <!-- Header Section -->
-    <div class="row mb-5 align-items-center animate__animated animate__fadeIn">
+    <div class="row mb-4 align-items-center animate__animated animate__fadeIn">
         <div class="col-md-8">
-            <h1 class="display-5 fw-bold text-gradient mb-2">Güncel Akaryakıt Fiyatları</h1>
-            <p class="lead text-muted">Türkiye genelindeki tüm istasyonların en güncel mazot, benzin ve LPG fiyatlarını
-                karşılaştırın.</p>
+            <h1 class="h2 fw-bold text-gradient mb-1">En Ucuz Mazotu Bul</h1>
+            <p class="text-muted mb-0">Türkiye genelindeki akaryakıt istasyonlarını karşılaştırın, tasarruf edin.</p>
         </div>
         <div class="col-md-4 text-md-end d-none d-md-block">
             <div class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2 shadow-sm">
@@ -105,14 +104,14 @@ require_once INCLUDES_PATH . '/header.php';
     </div>
 
     <!-- Filtreler -->
-    <div class="card border-0 shadow-sm rounded-4 mb-5 animate__animated animate__fadeIn">
-        <div class="card-body p-4">
-            <form action="" method="GET" class="row g-3">
-                <div class="col-md-3">
-                    <label class="form-label small fw-bold text-uppercase text-muted">Şehir Seçin</label>
-                    <div class="input-group">
+    <div class="card border-0 shadow-sm rounded-4 mb-4 animate__animated animate__fadeIn">
+        <div class="card-body p-3">
+            <form action="" method="GET" class="row g-2 align-items-end">
+                <div class="col-md-3 col-sm-6">
+                    <label class="form-label small fw-bold text-muted mb-1">Şehir</label>
+                    <div class="input-group input-group-sm">
                         <span class="input-group-text bg-light border-0"><i
-                                class="material-symbols-outlined fs-5">location_city</i></span>
+                                class="material-symbols-outlined fs-6">location_city</i></span>
                         <select name="city" class="form-select border-0 bg-light" onchange="this.form.submit()">
                             <option value="">Tüm Türkiye</option>
                             <?php foreach ($cities as $c): ?>
@@ -124,26 +123,26 @@ require_once INCLUDES_PATH . '/header.php';
                     </div>
                 </div>
 
-                <div class="col-md-3">
-                    <label class="form-label small fw-bold text-uppercase text-muted">İstasyon Ara</label>
-                    <div class="input-group">
+                <div class="col-md-3 col-sm-6">
+                    <label class="form-label small fw-bold text-muted mb-1">İstasyon Ara</label>
+                    <div class="input-group input-group-sm">
                         <span class="input-group-text bg-light border-0"><i
-                                class="material-symbols-outlined fs-5">search</i></span>
+                                class="material-symbols-outlined fs-6">search</i></span>
                         <input type="text" name="q" class="form-control border-0 bg-light"
                             placeholder="İsim veya ilçe..." value="<?= e($search) ?>">
                     </div>
                 </div>
 
-                <div class="col-md-3">
-                    <label class="form-label small fw-bold text-uppercase text-muted">Sıralama Kriteri</label>
-                    <div class="input-group">
+                <div class="col-md-3 col-sm-6">
+                    <label class="form-label small fw-bold text-muted mb-1">Sıralama</label>
+                    <div class="input-group input-group-sm">
                         <span class="input-group-text bg-light border-0"><i
-                                class="material-symbols-outlined fs-5">sort</i></span>
+                                class="material-symbols-outlined fs-6">sort</i></span>
                         <select name="sort" class="form-select border-0 bg-light" onchange="this.form.submit()">
                             <option value="price_asc" <?= $sort === 'price_asc' ? 'selected' : '' ?>>En Ucuz Mazot</option>
-                            <option value="near_me" <?= $sort === 'near_me' ? 'selected' : '' ?>>Yakınımdaki En Ucuzlar
+                            <option value="near_me" <?= $sort === 'near_me' ? 'selected' : '' ?>>Yanımdaki En Ucuzlar
                             </option>
-                            <option value="date_desc" <?= $sort === 'date_desc' ? 'selected' : '' ?>>En Yeni Güncellenen
+                            <option value="date_desc" <?= $sort === 'date_desc' ? 'selected' : '' ?>>En Yeni Güncel
                             </option>
                             <option value="rating_desc" <?= $sort === 'rating_desc' ? 'selected' : '' ?>>Müşteri Puanı
                             </option>
@@ -151,9 +150,9 @@ require_once INCLUDES_PATH . '/header.php';
                     </div>
                 </div>
 
-                <div class="col-md-3 d-flex align-items-end">
-                    <button type="submit" class="btn btn-primary w-100 rounded-pill py-2">
-                        <i class="material-symbols-outlined fs-5 align-middle me-1">filter_alt</i> Sonuçları Getir
+                <div class="col-md-3 col-sm-6">
+                    <button type="submit" class="btn btn-primary btn-sm w-100 rounded-pill">
+                        <i class="material-symbols-outlined fs-6 me-1">filter_alt</i> Sonuçları Getir
                     </button>
                 </div>
             </form>
@@ -202,8 +201,8 @@ require_once INCLUDES_PATH . '/header.php';
                 }
                 ?>
                 <div class="col-12">
-                    <div class="card station-card rounded-4 border-0 shadow-sm overflow-hidden mb-3">
-                        <div class="card-body p-4">
+                    <div class="card station-card rounded-4 border-0 shadow-sm overflow-hidden mb-2">
+                        <div class="card-body p-3">
                             <div class="station-card-grid">
                                 <!-- Info Cell -->
                                 <div class="station-info-cell">

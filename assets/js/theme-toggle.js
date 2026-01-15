@@ -2,9 +2,8 @@
  * UcuzMazot.com - Theme Toggle Script
  */
 document.addEventListener('DOMContentLoaded', () => {
-    const themeToggle = document.getElementById('themeToggle');
+    const themeToggles = document.querySelectorAll('.theme-toggle-btn');
     const htmlElement = document.documentElement;
-    const themeIcon = themeToggle ? themeToggle.querySelector('i') : null;
 
     // Başlangıç temasını ayarla
     const savedTheme = localStorage.getItem('theme') || 
@@ -13,8 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // UI'ı güncelle
     updateThemeUI(savedTheme);
 
-    if (themeToggle) {
-        themeToggle.addEventListener('click', () => {
+    themeToggles.forEach(btn => {
+        btn.addEventListener('click', () => {
             const currentTheme = htmlElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             
@@ -22,13 +21,23 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('theme', newTheme);
             updateThemeUI(newTheme);
         });
-    }
+    });
 
     function updateThemeUI(theme) {
         htmlElement.setAttribute('data-theme', theme);
-        if (themeIcon) {
-            themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-        }
+        
+        themeToggles.forEach(btn => {
+            const icon = btn.querySelector('i');
+            if (icon) {
+                icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+            
+            // Eğer butonun içinde yazı varsa onu da güncelleyebiliriz (opsiyonel)
+            const span = btn.querySelector('span');
+            if (span && btn.closest('.mobile-menu')) {
+                span.textContent = theme === 'dark' ? 'Aydınlık Mod' : 'Koyu Mod';
+            }
+        });
         
         // PWA Theme Color Güncelleme
         const metaThemeColor = document.querySelector('meta[name="theme-color"]');

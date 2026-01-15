@@ -164,7 +164,7 @@ $pageDescription = $pageDescription ?? 'Türkiye genelinde en ucuz mazot fiyatla
                     <?php endif; ?>
 
                     <!-- Theme Toggle -->
-                    <button id="themeToggle" class="btn btn-icon btn-outline" title="Tema Değiştir">
+                    <button class="btn btn-icon btn-outline theme-toggle-btn" title="Tema Değiştir">
                         <i class="fas fa-moon"></i>
                     </button>
 
@@ -213,6 +213,14 @@ $pageDescription = $pageDescription ?? 'Türkiye genelinde en ucuz mazot fiyatla
                     <span>İstasyon Girişi</span>
                 </a>
             <?php endif; ?>
+
+            <div class="border-t my-2 pt-2"></div>
+
+            <button class="nav-link theme-toggle-btn w-full text-left"
+                style="background:none; border:none; padding: var(--space-3) var(--space-4);">
+                <i class="fas fa-moon"></i>
+                <span>Tema Değiştir</span>
+            </button>
         </div>
 
         <script>

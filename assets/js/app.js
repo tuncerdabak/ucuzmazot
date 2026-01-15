@@ -3,7 +3,7 @@
  */
 
 // DOM Ready
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     initMobileMenu();
     initAlerts();
     initForms();
@@ -15,9 +15,9 @@ document.addEventListener('DOMContentLoaded', function() {
 function initMobileMenu() {
     const toggle = document.getElementById('mobileMenuToggle');
     const nav = document.querySelector('.main-nav');
-    
+
     if (toggle && nav) {
-        toggle.addEventListener('click', function() {
+        toggle.addEventListener('click', function () {
             nav.classList.toggle('active');
             this.querySelector('i').classList.toggle('fa-bars');
             this.querySelector('i').classList.toggle('fa-times');
@@ -30,7 +30,7 @@ function initMobileMenu() {
  */
 function initAlerts() {
     const alerts = document.querySelectorAll('.alert:not(.alert-permanent)');
-    
+
     alerts.forEach(alert => {
         setTimeout(() => {
             alert.style.opacity = '0';
@@ -45,11 +45,11 @@ function initAlerts() {
  */
 function initForms() {
     const forms = document.querySelectorAll('form[data-validate]');
-    
+
     forms.forEach(form => {
-        form.addEventListener('submit', function(e) {
+        form.addEventListener('submit', function (e) {
             let isValid = true;
-            
+
             // Required alanlar
             const required = form.querySelectorAll('[required]');
             required.forEach(field => {
@@ -60,7 +60,7 @@ function initForms() {
                     clearFieldError(field);
                 }
             });
-            
+
             // Telefon validasyonu
             const phoneFields = form.querySelectorAll('[type="tel"]');
             phoneFields.forEach(field => {
@@ -69,7 +69,7 @@ function initForms() {
                     showFieldError(field, 'Geçerli bir telefon numarası girin');
                 }
             });
-            
+
             // Email validasyonu
             const emailFields = form.querySelectorAll('[type="email"]');
             emailFields.forEach(field => {
@@ -78,7 +78,7 @@ function initForms() {
                     showFieldError(field, 'Geçerli bir e-posta adresi girin');
                 }
             });
-            
+
             if (!isValid) {
                 e.preventDefault();
             }
@@ -91,7 +91,7 @@ function initForms() {
  */
 function showFieldError(field, message) {
     field.classList.add('error');
-    
+
     let errorEl = field.parentElement.querySelector('.form-error');
     if (!errorEl) {
         errorEl = document.createElement('div');
@@ -150,7 +150,7 @@ function formatDistance(km) {
  */
 function showLoading(text = 'Yükleniyor...') {
     let overlay = document.getElementById('loadingOverlay');
-    
+
     if (!overlay) {
         overlay = document.createElement('div');
         overlay.id = 'loadingOverlay';
@@ -211,9 +211,9 @@ function showToast(message, type = 'info', duration = 3000) {
         z-index: 9999;
         animation: slideIn 0.3s ease;
     `;
-    
+
     document.body.appendChild(toast);
-    
+
     setTimeout(() => {
         toast.style.animation = 'slideOut 0.3s ease';
         setTimeout(() => toast.remove(), 300);
@@ -242,11 +242,11 @@ async function fetchData(url, options = {}) {
             },
             ...options
         });
-        
+
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
+
         return await response.json();
     } catch (error) {
         console.error('Fetch error:', error);
@@ -268,3 +268,22 @@ function debounce(func, wait) {
         timeout = setTimeout(later, wait);
     };
 }
+
+// App Detection
+function initAppDetection() {
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
+        window.navigator.standalone ||
+        document.referrer.includes('android-app://');
+
+    if (isStandalone) {
+        document.body.classList.add('is-app');
+        console.log('App environment detected');
+    }
+}
+
+// Global initialization
+document.addEventListener('DOMContentLoaded', () => {
+    initAppDetection();
+    initMobileMenu();
+    initAlerts();
+});

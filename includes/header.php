@@ -15,6 +15,14 @@ $pageDescription = $pageDescription ?? 'Türkiye genelinde en ucuz mazot fiyatla
 <html lang="tr">
 
 <head>
+    <script>
+        // Flash of light mode prevention
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 
+                              (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-0VH3HREBR3"></script>
     <script>
@@ -71,6 +79,7 @@ $pageDescription = $pageDescription ?? 'Türkiye genelinde en ucuz mazot fiyatla
     <!-- PWA -->
     <link rel="manifest" href="<?= url('manifest.json') ?>">
     <meta name="theme-color" content="#2563eb">
+    <script src="<?= asset('js/theme-toggle.js') ?>"></script>
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
@@ -153,6 +162,11 @@ $pageDescription = $pageDescription ?? 'Türkiye genelinde en ucuz mazot fiyatla
                             İstasyon Girişi
                         </a>
                     <?php endif; ?>
+
+                    <!-- Theme Toggle -->
+                    <button id="themeToggle" class="btn btn-icon btn-outline" title="Tema Değiştir">
+                        <i class="fas fa-moon"></i>
+                    </button>
 
                     <!-- Mobile Menu Toggle -->
                     <button class="mobile-menu-toggle" id="mobileMenuToggle">

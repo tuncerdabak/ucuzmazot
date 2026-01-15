@@ -95,6 +95,8 @@ $pageTitle = 'Yeni İstasyon Ekle - Admin Paneli';
 require_once __DIR__ . '/includes/header.php';
 ?>
 
+<link rel="stylesheet" href="<?= asset('assets/css/admin-istasyon.css') ?>">
+
 <div class="panel-header">
     <h1>Yeni İstasyon Ekle</h1>
     <a href="istasyonlar.php" class="btn btn-outline btn-sm">
@@ -104,166 +106,138 @@ require_once __DIR__ . '/includes/header.php';
 
 <div class="content-grid">
     <div class="card">
-    <div class="card-body">
-        <?php if (!empty($errors)): ?>
-            <div class="alert alert-danger mb-4">
-                <ul class="mb-0 pl-3">
-                    <?php foreach ($errors as $err): ?>
-                        <li>
-                            <?= e($err) ?>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-        <?php endif; ?>
+        <div class="card-body">
+            <?php if (!empty($errors)): ?>
+                <div class="alert alert-danger mb-4">
+                    <ul class="mb-0 pl-3">
+                        <?php foreach ($errors as $err): ?>
+                            <li>
+                                <?= e($err) ?>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
 
-        <form method="POST">
-            <input type="hidden" name="csrf_token" value="<?= csrfToken() ?>">
+            <form method="POST" id="stationForm">
+                <input type="hidden" name="csrf_token" value="<?= csrfToken() ?>">
+                <input type="hidden" name="brand" id="selectedBrand" value="<?= e($formData['brand']) ?>">
+                <input type="hidden" name="city" value="İstanbul">
 
-            <!-- İstasyon Sahibi -->
-            <div class="form-group mb-4">
-                <label class="form-label">İstasyon Sahibi</label>
-                <select name="user_id" class="form-control select2">
-                    <?php foreach ($users as $u): ?>
-                        <option value="<?= $u['id'] ?>" <?= $formData['user_id'] == $u['id'] ? 'selected' : '' ?>>
-                            <?= e($u['name']) ?> (
-                            <?= e($u['phone']) ?>)
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-                <small class="text-gray">İstasyonu yönetecek kullanıcıyı seçin.</small>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group mb-3">
-                        <label class="form-label">İstasyon Adı *</label>
-                        <input type="text" name="name" class="form-control" required
-                            value="<?= e($formData['name']) ?>">
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- İstasyon Sahibi -->
+                        <div class="form-group mb-4">
+                            <label class="form-label">İstasyon Sahibi *</label>
+                            <select name="user_id" class="form-control select2">
+                                <?php foreach ($users as $u): ?>
+                                    <option value="<?= $u['id'] ?>" <?= $formData['user_id'] == $u['id'] ? 'selected' : '' ?>>
+                                        <?= e($u['name']) ?> (<?= e($u['phone']) ?>)
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group mb-3">
-                        <label class="form-label">Marka</label>
-                        <select name="brand" class="form-control select2">
-                            <option value="">Seçiniz</option>
-                            <?php
-                            $sortedBrands = FUEL_BRANDS;
-                            asort($sortedBrands, SORT_LOCALE_STRING);
-                            foreach ($sortedBrands as $brand):
-                                ?>
-                                <option value="<?= e($brand) ?>" <?= $formData['brand'] === $brand ? 'selected' : '' ?>>
-                                    <?= e($brand) ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Fiyat Bilgileri -->
-            <div class="row bg-light p-3 rounded mb-4 mx-0">
-                <div class="col-12 mb-2">
-                    <h5 class="mb-0">Açılış Fiyatları</h5>
-                    <small class="text-gray">İstasyon için başlangıç fiyatlarını girebilirsiniz.</small>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group mb-2">
-                        <label class="form-label">Mazot Fiyatı</label>
-                        <div class="input-group">
-                            <input type="number" step="0.01" name="diesel_price" class="form-control" placeholder="0.00"
-                                value="<?= e($formData['diesel_price']) ?>">
-                            <span class="input-group-text">TL</span>
+                    <div class="col-md-6">
+                        <div class="form-group mb-4">
+                            <label class="form-label">İstasyon Adı *</label>
+                            <input type="text" name="name" class="form-control" required
+                                placeholder="Örn: X Petrol Kadıköy" value="<?= e($formData['name']) ?>">
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group mb-2">
-                        <label class="form-label">Benzin Fiyatı</label>
-                        <div class="input-group">
-                            <input type="number" step="0.01" name="gasoline_price" class="form-control"
-                                placeholder="0.00" value="<?= e($formData['gasoline_price']) ?>">
-                            <span class="input-group-text">TL</span>
+
+                <!-- Marka Seçimi -->
+                <div class="form-group mb-4">
+                    <label class="form-label">Marka Seçimi</label>
+                    <div class="brand-grid">
+                        <?php
+                        $sortedBrands = FUEL_BRANDS;
+                        asort($sortedBrands, SORT_LOCALE_STRING);
+                        foreach ($sortedBrands as $brand):
+                            $isActive = $formData['brand'] === $brand;
+                            ?>
+                            <div class="brand-item <?= $isActive ? 'active' : '' ?>"
+                                onclick="selectBrand('<?= e($brand) ?>', this)">
+                                <div class="check"><i class="fas fa-check"></i></div>
+                                <?= e($brand) ?>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+
+                <!-- Fiyat Bilgileri -->
+                <div class="row bg-light p-3 rounded mb-4 mx-0">
+                    <div class="col-12 mb-2">
+                        <h5 class="mb-0">Açılış Fiyatları</h5>
+                        <small class="text-gray">İstasyon için başlangıç fiyatlarını girebilirsiniz.</small>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group mb-2">
+                            <label class="form-label">Mazot Fiyatı</label>
+                            <div class="input-group">
+                                <input type="number" step="0.01" name="diesel_price" class="form-control"
+                                    placeholder="0.00" value="<?= e($formData['diesel_price']) ?>">
+                                <span class="input-group-text">TL</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group mb-2">
+                            <label class="form-label">Benzin Fiyatı</label>
+                            <div class="input-group">
+                                <input type="number" step="0.01" name="gasoline_price" class="form-control"
+                                    placeholder="0.00" value="<?= e($formData['gasoline_price']) ?>">
+                                <span class="input-group-text">TL</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group mb-2">
+                            <label class="form-label">LPG Fiyatı</label>
+                            <div class="input-group">
+                                <input type="number" step="0.01" name="lpg_price" class="form-control"
+                                    placeholder="0.00" value="<?= e($formData['lpg_price']) ?>">
+                                <span class="input-group-text">TL</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group mb-2">
-                        <label class="form-label">LPG Fiyatı</label>
-                        <div class="input-group">
-                            <input type="number" step="0.01" name="lpg_price" class="form-control" placeholder="0.00"
-                                value="<?= e($formData['lpg_price']) ?>">
-                            <span class="input-group-text">TL</span>
-                        </div>
+
+                <!-- Harita -->
+                <div class="form-group mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <label class="form-label mb-0">İstasyon Konumu *</label>
+                        <button type="button" id="btnGetLocation" class="btn btn-sm btn-info">
+                            <i class="fas fa-map-marker-alt"></i> Konumumu Bul
+                        </button>
+                    </div>
+                    <div id="locationMap"
+                        style="height: 350px; border-radius: var(--radius); border: 1px solid var(--gray-200);"></div>
+                    <input type="hidden" name="lat" id="latInput" value="<?= e($formData['lat']) ?>">
+                    <input type="hidden" name="lng" id="lngInput" value="<?= e($formData['lng']) ?>">
+                    <div class="mt-2 text-sm text-gray" id="locationText">
+                        <?= $formData['lat'] ? $formData['lat'] . ', ' . $formData['lng'] : 'Haritadan konum seçin.' ?>
                     </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group mb-3">
-                        <label class="form-label">Şehir *</label>
-                        <select name="city" class="form-control select2" required id="citySelect">
-                            <option value="">Seçiniz</option>
-                            <?php foreach (TURKEY_CITIES as $city): ?>
-                                <option value="<?= e($city) ?>" <?= $formData['city'] === $city ? 'selected' : '' ?>>
-                                    <?= e($city) ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group mb-3">
-                        <label class="form-label">İlçe</label>
-                        <input type="text" name="district" class="form-control" value="<?= e($formData['district']) ?>">
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group mb-3">
-                <label class="form-label">Adres</label>
-                <textarea name="address" class="form-control" rows="2"><?= e($formData['address']) ?></textarea>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group mb-3">
-                        <label class="form-label">Telefon</label>
-                        <input type="tel" name="phone" class="form-control" value="<?= e($formData['phone']) ?>">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group mb-3">
-                        <label class="form-label">E-posta</label>
-                        <input type="email" name="email" class="form-control" value="<?= e($formData['email']) ?>">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Harita -->
-            <div class="form-group mb-4">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <label class="form-label mb-0">Konum *</label>
-                    <button type="button" id="btnGetLocation" class="btn btn-sm btn-info">
-                        <i class="fas fa-map-marker-alt"></i> Konumumu Bul
-                    </button>
-                </div>
-                <div id="locationMap"
-                    style="height: 400px; border-radius: var(--radius); border: 1px solid var(--gray-200);"></div>
-                <input type="hidden" name="lat" id="latInput" value="<?= e($formData['lat']) ?>">
-                <input type="hidden" name="lng" id="lngInput" value="<?= e($formData['lng']) ?>">
-                <div class="mt-2 text-sm text-gray" id="locationText">
-                    <?= $formData['lat'] ? $formData['lat'] . ', ' . $formData['lng'] : 'Haritadan konum seçin.' ?>
-                </div>
-            </div>
-
-            <button type="submit" class="btn btn-primary">
-                <i class="fas fa-save"></i> Kaydet ve Oluştur
-            </button>
-        </form>
+                <button type="submit" class="btn btn-primary w-100 py-3">
+                    <i class="fas fa-save"></i> İstasyonu Oluştur
+                </button>
+            </form>
+        </div>
     </div>
-    </div>
+</div>
+
+<script>
+    function selectBrand(brand, element) {
+        document.getElementById('selectedBrand').value = brand;
+        document.querySelectorAll('.brand-item').forEach(el => el.classList.remove('active'));
+        element.classList.add('active');
+    }
+</script>
+</div>
+</div>
 </div>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">

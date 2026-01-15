@@ -83,51 +83,58 @@ require_once __DIR__ . '/includes/header.php';
     </span>
 </header>
 
-<div class="filter-bar">
-    <select class="form-control" onchange="applyFilter('city', this.value)">
-        <option value="">Tüm Şehirler</option>
-        <?php foreach ($cities as $c): ?>
-            <option value="<?= e($c['city']) ?>" <?= $city === $c['city'] ? 'selected' : '' ?>>
-                <?= e($c['city']) ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
+<div class="content-grid">
+    <?php if ($flash = getFlash()): ?>
+        <div class="alert alert-<?= e($flash['type']) ?>">
+            <i class="fas fa-check-circle"></i>
+            <?= e($flash['message']) ?>
+        </div>
+    <?php endif; ?>
 
-    <select class="form-control" onchange="applyFilter('brand', this.value)">
-        <option value="">Tüm Markalar</option>
-        <?php foreach ($brands as $b): ?>
-            <option value="<?= e($b['brand']) ?>" <?= $brand === $b['brand'] ? 'selected' : '' ?>>
-                <?= e($b['brand']) ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
+    <div class="filter-bar">
+        <select class="form-control" onchange="applyFilter('city', this.value)">
+            <option value="">Tüm Şehirler</option>
+            <?php foreach ($cities as $c): ?>
+                <option value="<?= e($c['city']) ?>" <?= $city === $c['city'] ? 'selected' : '' ?>>
+                    <?= e($c['city']) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
 
-    <input type="text" class="form-control search-input" placeholder="İstasyon ara..." value="<?= e($search) ?>"
-        id="searchInput">
-    <button onclick="applySearch()" class="btn btn-primary">
-        <i class="fas fa-search"></i>
-    </button>
-</div>
+        <select class="form-control" onchange="applyFilter('brand', this.value)">
+            <option value="">Tüm Markalar</option>
+            <?php foreach ($brands as $b): ?>
+                <option value="<?= e($b['brand']) ?>" <?= $brand === $b['brand'] ? 'selected' : '' ?>>
+                    <?= e($b['brand']) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
 
-<?php
-function sortLink($col, $label)
-{
-    global $sort, $order;
-    $newOrder = ($sort === $col && $order === 'ASC') ? 'DESC' : 'ASC';
-    $icon = '';
-    if ($sort === $col) {
-        $icon = $order === 'ASC' ? ' <i class="fas fa-sort-up"></i>' : ' <i class="fas fa-sort-down"></i>';
-    } else {
-        $icon = ' <i class="fas fa-sort text-gray-400"></i>';
+        <input type="text" class="form-control search-input" placeholder="İstasyon ara..." value="<?= e($search) ?>"
+            id="searchInput">
+        <button onclick="applySearch()" class="btn btn-primary">
+            <i class="fas fa-search"></i>
+        </button>
+    </div>
+
+    <?php
+    function sortLink($col, $label)
+    {
+        global $sort, $order;
+        $newOrder = ($sort === $col && $order === 'ASC') ? 'DESC' : 'ASC';
+        $icon = '';
+        if ($sort === $col) {
+            $icon = $order === 'ASC' ? ' <i class="fas fa-sort-up"></i>' : ' <i class="fas fa-sort-down"></i>';
+        } else {
+            $icon = ' <i class="fas fa-sort text-gray-400"></i>';
+        }
+        echo '<a href="javascript:void(0)" onclick="applyFilter(\'sort\', \'' . $col . '\', \'order\', \'' . $newOrder . '\')" style="text-decoration:none; color:inherit; display:flex; align-items:center; gap:5px;">' . $label . $icon . '</a>';
     }
-    echo '<a href="javascript:void(0)" onclick="applyFilter(\'sort\', \'' . $col . '\', \'order\', \'' . $newOrder . '\')" style="text-decoration:none; color:inherit; display:flex; align-items:center; gap:5px;">' . $label . $icon . '</a>';
-}
-?>
+    ?>
 
-<div class="card">
-    <div class="card-body" style="padding: 0;">
+    <div class="card overflow-hidden">
         <div class="table-responsive">
-            <table class="data-table">
+            <table class="table">
                 <thead>
                     <tr>
                         <th style="min-width: 150px;"><?php sortLink('station_name', 'İstasyon'); ?></th>
@@ -136,8 +143,7 @@ function sortLink($col, $label)
                         <th><?php sortLink('truck_diesel_price', 'TIR Özel'); ?></th>
                         <th><?php sortLink('gasoline_price', 'Benzin'); ?></th>
                         <th><?php sortLink('lpg_price', 'LPG'); ?></th>
-                        <th><?php sortLink('updater_name', 'Güncelleyen'); ?></th>
-                        <th><?php sortLink('created_at', 'Tarih'); ?></th>
+                        <th class="text-right"><?php sortLink('created_at', 'Tarih'); ?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -149,12 +155,16 @@ function sortLink($col, $label)
                         <?php foreach ($prices as $p): ?>
                             <tr>
                                 <td data-label="İstasyon">
-                                    <strong>
-                                        <?= e($p['station_name']) ?>
-                                    </strong>
-                                    <br><small class="text-gray">
-                                        <?= e($p['brand']) ?>
-                                    </small>
+                                    <div class="user-cell">
+                                        <div class="user-info">
+                                            <div class="user-name">
+                                                <?= e($p['station_name']) ?>
+                                            </div>
+                                            <div class="user-email">
+                                                <?= e($p['brand']) ?>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                                 <td data-label="Şehir">
                                     <?= e($p['city']) ?>
@@ -201,13 +211,15 @@ function sortLink($col, $label)
                                         -
                                     <?php endif; ?>
                                 </td>
-                                <td data-label="Güncelleyen">
-                                    <span title="User ID: <?= $p['updated_by'] ?: 'System' ?>">
-                                        <?= e($p['updater_name'] ?: 'Misafir/IP: ' . ($p['note'] ?? 'Sistem')) ?>
-                                    </span>
-                                </td>
-                                <td data-label="Tarih">
-                                    <?= formatDate($p['created_at'], 'd.m.Y H:i') ?>
+                                <td data-label="Tarih" class="text-right">
+                                    <div class="user-info" style="align-items: flex-end;">
+                                        <div class="user-name" style="font-size: 0.85rem;">
+                                            <?= formatDate($p['created_at'], 'd.m.Y H:i') ?>
+                                        </div>
+                                        <div class="user-email" style="font-size: 0.75rem;">
+                                            <?= e($p['updater_name'] ?: ($p['note'] ?: 'Sistem')) ?>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -216,13 +228,14 @@ function sortLink($col, $label)
             </table>
         </div>
     </div>
-</div>
 
-<?php if ($total > $perPage): ?>
-    <div class="mt-4">
-        <?= paginate($total, $perPage, $page, '/admin/fiyatlar.php') ?>
-    </div>
-<?php endif; ?>
+    <!-- Sayfalama -->
+    <?php if ($total > $perPage): ?>
+        <div class="mt-4">
+            <?= paginate($total, $perPage, $page, '/admin/fiyatlar.php') ?>
+        </div>
+    <?php endif; ?>
+</div>
 
 <script>
     function applyFilter(key, value, secondKey, secondValue) {

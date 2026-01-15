@@ -15,15 +15,15 @@ $stationId = $_GET['station_id'] ?? '';
 $city = $_GET['city'] ?? '';
 $brand = $_GET['brand'] ?? '';
 $search = $_GET['search'] ?? '';
-$sort = $_GET['sort'] ?? 'created_at';
-$order = $_GET['order'] ?? 'DESC';
+$sort = $_GET['sort'] ?? 'fp.diesel_price';
+$order = $_GET['order'] ?? 'ASC';
 $page = max(1, (int) ($_GET['page'] ?? 1));
 $perPage = 30;
 
 // Valid Sort Columns
-$validSorts = ['station_name', 'city', 'brand', 'diesel_price', 'truck_diesel_price', 'gasoline_price', 'lpg_price', 'created_at', 'user_name'];
+$validSorts = ['station_name', 'city', 'brand', 'diesel_price', 'truck_diesel_price', 'gasoline_price', 'lpg_price', 'created_at', 'updater_name'];
 if (!in_array($sort, $validSorts))
-    $sort = 'created_at';
+    $sort = 'fp.diesel_price';
 $order = strtoupper($order) === 'ASC' ? 'ASC' : 'DESC';
 
 // Query
@@ -46,20 +46,25 @@ if ($search) {
     $params[] = "%$search%";
 }
 
-// Toplam Kayıt
+// Toplam Kayıt (Sadece her istasyonun son fiyatı)
 $sqlCount = "
-    SELECT COUNT(*) 
+    SELECT COUNT(DISTINCT s.id) 
     FROM fuel_prices fp
     JOIN stations s ON fp.station_id = s.id
     WHERE $where
 ";
 $total = db()->fetchColumn($sqlCount, $params);
 
-// Fiyatları Getir
+// Fiyatları Getir (Her istasyonun sadece en güncel kaydı)
 $offset = ($page - 1) * $perPage;
 $sql = "
     SELECT fp.*, s.name as station_name, s.brand, s.city, u.name as updater_name
     FROM fuel_prices fp
+    INNER JOIN (
+        SELECT station_id, MAX(id) as max_id
+        FROM fuel_prices
+        GROUP BY station_id
+    ) latest ON fp.id = latest.max_id
     JOIN stations s ON fp.station_id = s.id
     LEFT JOIN users u ON fp.updated_by = u.id
     WHERE $where
@@ -72,14 +77,14 @@ $prices = db()->fetchAll($sql, $params);
 $cities = db()->fetchAll("SELECT DISTINCT city FROM stations WHERE city != '' ORDER BY city");
 $brands = db()->fetchAll("SELECT DISTINCT brand FROM stations WHERE brand != '' ORDER BY brand");
 
-$pageTitle = 'Fiyat Yönetimi - Admin Paneli';
+$pageTitle = 'En Uygun Fiyatlar - Admin Paneli';
 require_once __DIR__ . '/includes/header.php';
 ?>
 
 <header class="panel-header">
-    <h1>Fiyat Geçmişi</h1>
+    <h1>En Uygun Fiyatlı İstasyonlar</h1>
     <span class="text-gray">
-        <?= $total ?> fiyat kaydı
+        <?= $total ?> istasyon listeleniyor
     </span>
 </header>
 
@@ -121,9 +126,15 @@ require_once __DIR__ . '/includes/header.php';
     function sortLink($col, $label)
     {
         global $sort, $order;
-        $newOrder = ($sort === $col && $order === 'ASC') ? 'DESC' : 'ASC';
+        $orderField = $sort;
+        if (strpos($sort, '.') !== false) {
+            $parts = explode('.', $sort);
+            $orderField = end($parts);
+        }
+
+        $newOrder = ($orderField === $col && $order === 'ASC') ? 'DESC' : 'ASC';
         $icon = '';
-        if ($sort === $col) {
+        if ($orderField === $col) {
             $icon = $order === 'ASC' ? ' <i class="fas fa-sort-up"></i>' : ' <i class="fas fa-sort-down"></i>';
         } else {
             $icon = ' <i class="fas fa-sort text-gray-400"></i>';
@@ -143,7 +154,7 @@ require_once __DIR__ . '/includes/header.php';
                         <th><?php sortLink('truck_diesel_price', 'TIR Özel'); ?></th>
                         <th><?php sortLink('gasoline_price', 'Benzin'); ?></th>
                         <th><?php sortLink('lpg_price', 'LPG'); ?></th>
-                        <th class="text-right"><?php sortLink('created_at', 'Tarih'); ?></th>
+                        <th class="text-right"><?php sortLink('created_at', 'Son Güncelleme'); ?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -152,13 +163,17 @@ require_once __DIR__ . '/includes/header.php';
                             <td colspan="7" class="text-center text-gray p-5">Kayıt bulunamadı.</td>
                         </tr>
                     <?php else: ?>
-                        <?php foreach ($prices as $p): ?>
-                            <tr>
+                        <?php foreach ($prices as $index => $p): ?>
+                            <tr <?= ($index === 0 && $page === 1) ? 'style="background: rgba(16, 185, 129, 0.05);"' : '' ?>>
                                 <td data-label="İstasyon">
                                     <div class="user-cell">
                                         <div class="user-info">
                                             <div class="user-name">
                                                 <?= e($p['station_name']) ?>
+                                                <?php if ($index === 0 && $page === 1): ?>
+                                                    <span class="status-badge status-success"
+                                                        style="font-size: 0.65rem; margin-left: 5px;">EN UCUZ</span>
+                                                <?php endif; ?>
                                             </div>
                                             <div class="user-email">
                                                 <?= e($p['brand']) ?>

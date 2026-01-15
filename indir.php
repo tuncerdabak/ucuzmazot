@@ -1,5 +1,9 @@
 <?php
 require_once 'config.php';
+require_once INCLUDES_PATH . '/db.php';
+require_once INCLUDES_PATH . '/auth.php';
+require_once INCLUDES_PATH . '/functions.php';
+
 $pageTitle = 'Mobil Uygulamamızı İndirin - ' . SITE_NAME;
 include 'includes/header.php';
 ?>

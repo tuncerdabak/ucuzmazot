@@ -189,6 +189,10 @@ $pageDescription = $pageDescription ?? 'Türkiye genelinde en ucuz mazot fiyatla
                 <i class="fas fa-filter"></i>
                 <span>Markalar</span>
             </a>
+            <a href="<?= url('/indir.php') ?>" class="nav-link hide-in-app">
+                <i class="fas fa-download"></i>
+                <span>Uygulamayı İndir</span>
+            </a>
 
             <div class="border-t my-2 pt-2"></div>
 

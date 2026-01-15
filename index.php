@@ -53,7 +53,7 @@ require_once INCLUDES_PATH . '/header.php';
 
 <div class="home-page">
     <!-- App Download Banner (Mobile Only) -->
-    <div class="app-download-banner show-on-mobile">
+    <div class="app-download-banner show-on-mobile hide-in-app">
         <div class="banner-content">
             <i class="fas fa-mobile-alt"></i>
             <div class="banner-text">

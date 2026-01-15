@@ -141,59 +141,63 @@ require_once __DIR__ . '/includes/header.php';
     </div>
 
     <!-- Tablo -->
-    <div class="card">
-        <div class="card-body" style="padding: 0;">
-            <div class="table-responsive">
-                <table class="data-table">
-                    <thead>
+    <div class="card overflow-hidden">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>İstasyon</th>
+                        <th>Şehir</th>
+                        <th>Fiyat</th>
+                        <th>Durum</th>
+                        <th>Tarih</th>
+                        <th class="text-right">İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (empty($stations)): ?>
                         <tr>
-                            <th>İstasyon</th>
-                            <th>Şehir</th>
-                            <th>Fiyat</th>
-                            <th>Durum</th>
-                            <th>Tarih</th>
-                            <th>İşlemler</th>
+                            <td colspan="6" class="text-center text-gray p-5">
+                                İstasyon bulunamadı.
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (empty($stations)): ?>
+                    <?php else: ?>
+                        <?php foreach ($stations as $st): ?>
                             <tr>
-                                <td colspan="6" class="text-center text-gray p-5">
-                                    İstasyon bulunamadı.
+                                <td data-label="İstasyon">
+                                    <div class="user-cell">
+                                        <div class="user-info">
+                                            <div class="user-name">
+                                                <?= e($st['name']) ?>
+                                            </div>
+                                            <?php if ($st['brand']): ?>
+                                                <div class="user-email">
+                                                    <?= e($st['brand']) ?>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
                                 </td>
-                            </tr>
-                        <?php else: ?>
-                            <?php foreach ($stations as $st): ?>
-                                <tr>
-                                    <td data-label="İstasyon">
-                                        <strong>
-                                            <?= e($st['name']) ?>
-                                        </strong>
-                                        <?php if ($st['brand']): ?>
-                                            <br><small class="text-gray">
-                                                <?= e($st['brand']) ?>
-                                            </small>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td data-label="Şehir">
-                                        <?= e($st['city']) ?>
-                                    </td>
-                                    <td data-label="Fiyat">
-                                        <?= $st['current_price'] ? formatPrice($st['current_price']) : '-' ?>
-                                    </td>
-                                    <td data-label="Durum">
-                                        <?php if (!$st['is_active']): ?>
-                                            <span class="status-badge rejected">Pasif</span>
-                                        <?php elseif (!$st['is_approved']): ?>
-                                            <span class="status-badge pending">Onay Bekliyor</span>
-                                        <?php else: ?>
-                                            <span class="status-badge approved">Onaylı</span>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td data-label="Tarih">
-                                        <?= formatDate($st['created_at'], 'd.m.Y') ?>
-                                    </td>
-                                    <td data-label="İşlemler" class="actions">
+                                <td data-label="Şehir">
+                                    <?= e($st['city']) ?>
+                                </td>
+                                <td data-label="Fiyat">
+                                    <strong><?= $st['current_price'] ? formatPrice($st['current_price']) : '-' ?></strong>
+                                </td>
+                                <td data-label="Durum">
+                                    <?php if (!$st['is_active']): ?>
+                                        <span class="status-badge status-danger">Pasif</span>
+                                    <?php elseif (!$st['is_approved']): ?>
+                                        <span class="status-badge pending">Onay Bekliyor</span>
+                                    <?php else: ?>
+                                        <span class="status-badge status-success">Onaylı</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td data-label="Tarih">
+                                    <?= formatDate($st['created_at'], 'd.m.Y') ?>
+                                </td>
+                                <td data-label="İşlemler" class="text-right">
+                                    <div class="action-buttons">
                                         <?php if (!$st['is_approved']): ?>
                                             <form method="POST" style="display:inline;">
                                                 <input type="hidden" name="csrf_token" value="<?= csrfToken() ?>">
@@ -230,17 +234,17 @@ require_once __DIR__ . '/includes/header.php';
                                             <i class="fas fa-edit"></i>
                                         </a>
 
-                                        <a href="<?= url('/istasyon-detay.php?id=' . $st['id']) ?>" class="btn btn-sm btn-outline"
-                                            target="_blank" title="Görüntüle">
+                                        <a href="<?= url('/istasyon-detay.php?id=' . $st['id']) ?>"
+                                            class="btn btn-sm btn-outline" target="_blank" title="Görüntüle">
                                             <i class="fas fa-external-link-alt"></i>
                                         </a>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
-            </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </tbody>
+            </table>
         </div>
     </div>
 

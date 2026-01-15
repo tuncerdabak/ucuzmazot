@@ -12,6 +12,8 @@ require_once INCLUDES_PATH . '/functions.php';
 $city = $_GET['city'] ?? null;
 $search = trim($_GET['q'] ?? '');
 $sort = $_GET['sort'] ?? 'price_asc';
+$lat = $_GET['lat'] ?? null;
+$lng = $_GET['lng'] ?? null;
 
 // Sıralama
 $orderClause = "fp.diesel_price ASC";
@@ -25,10 +27,22 @@ switch ($sort) {
     case 'rating_desc':
         $orderClause = "avg_rating DESC";
         break;
+    case 'near_me':
+        $orderClause = "fp.diesel_price ASC"; // En ucuz olan, mesafe filtresi WHERE içinde olacak
+        break;
+}
+
+// Mesafe hesaplama formülü (Haversine ya da Basitleştirilmiş)
+$distanceSql = "NULL as distance";
+if ($lat && $lng) {
+    // 6371 * acos(...) formülü MySQL için ağır olabilir ama 50 istasyon için sorun değil.
+    // Ancak basitleştirilmiş Pisagor formülü de bu ölçekte (50km) yeterlidir.
+    $distanceSql = "(6371 * acos(cos(radians(?)) * cos(radians(s.lat)) * cos(radians(s.lng) - radians(?)) + sin(radians(?)) * sin(radians(s.lat)))) as distance";
 }
 
 // SQL Sorgusu
 $sql = "SELECT s.*, fp.diesel_price, fp.gasoline_price, fp.lpg_price, fp.created_at as price_updated_at,
+        $distanceSql,
         (SELECT AVG(rating) FROM reviews WHERE station_id = s.id AND is_visible = 1) as avg_rating,
         (SELECT COUNT(*) FROM reviews WHERE station_id = s.id AND is_visible = 1) as review_count
         FROM stations s
@@ -40,6 +54,11 @@ $sql = "SELECT s.*, fp.diesel_price, fp.gasoline_price, fp.lpg_price, fp.created
         WHERE s.is_active = 1 AND s.is_approved = 1";
 
 $params = [];
+if ($lat && $lng) {
+    $params[] = $lat;
+    $params[] = $lng;
+    $params[] = $lat;
+}
 
 if ($city) {
     $sql .= " AND s.city = ?";
@@ -50,6 +69,11 @@ if ($search) {
     $sql .= " AND (s.name LIKE ? OR s.district LIKE ?)";
     $params[] = "%$search%";
     $params[] = "%$search%";
+}
+
+if ($sort === 'near_me' && $lat && $lng) {
+    $sql .= " HAVING distance <= ?";
+    $params[] = SEARCH_RADIUS_KM;
 }
 
 // Fiyatı olmayanları sona at
@@ -117,6 +141,8 @@ require_once INCLUDES_PATH . '/header.php';
                                 class="material-symbols-outlined fs-5">sort</i></span>
                         <select name="sort" class="form-select border-0 bg-light" onchange="this.form.submit()">
                             <option value="price_asc" <?= $sort === 'price_asc' ? 'selected' : '' ?>>En Ucuz Mazot</option>
+                            <option value="near_me" <?= $sort === 'near_me' ? 'selected' : '' ?>>Yakınımdaki En Ucuzlar
+                            </option>
                             <option value="date_desc" <?= $sort === 'date_desc' ? 'selected' : '' ?>>En Yeni Güncellenen
                             </option>
                             <option value="rating_desc" <?= $sort === 'rating_desc' ? 'selected' : '' ?>>Müşteri Puanı
@@ -201,6 +227,12 @@ require_once INCLUDES_PATH . '/header.php';
                                             <div class="text-muted small">
                                                 <i class="material-symbols-outlined fs-6 align-middle me-1">location_on</i>
                                                 <?= e($station['district']) ?>, <?= e($station['city']) ?>
+                                                <?php if (isset($station['distance']) && $station['distance'] !== null): ?>
+                                                    <span class="ms-2 badge bg-light text-dark fw-normal border">
+                                                        <i class="material-symbols-outlined fs-6 align-middle">near_me</i>
+                                                        <?= number_format($station['distance'], 1) ?> km
+                                                    </span>
+                                                <?php endif; ?>
                                             </div>
                                             <?php if ($station['avg_rating']): ?>
                                                 <div class="mt-1 small">
@@ -283,3 +315,24 @@ require_once INCLUDES_PATH . '/header.php';
 </style>
 
 <?php require_once INCLUDES_PATH . '/footer.php'; ?>
+
+<script src="<?= asset('js/map.js') ?>"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const sortSelect = document.querySelector('select[name="sort"]');
+
+        sortSelect.addEventListener('change', function (e) {
+            if (this.value === 'near_me') {
+                e.preventDefault();
+                getUserLocation(function (pos) {
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('sort', 'near_me');
+                    url.searchParams.set('lat', pos.lat);
+                    url.searchParams.set('lng', pos.lng);
+                    url.searchParams.delete('city'); // Mesafe bazlı aramada şehir fitresini kaldır
+                    window.location.href = url.toString();
+                });
+            }
+        });
+    });
+</script>

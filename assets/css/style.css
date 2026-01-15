@@ -587,6 +587,17 @@ textarea.form-control {
     }
 }
 
+/* App Detection Logic */
+@media (display-mode: standalone) {
+    .hide-in-app {
+        display: none !important;
+    }
+}
+
+body.is-app .hide-in-app {
+    display: none !important;
+}
+
 /* Loading Spinner */
 .spinner {
     width: 40px;

@@ -60,8 +60,8 @@ define('JWT_SECRET', 'GUCLU_BIR_SECRET_KEY_GIRIN_BURAYA_EN_AZ_32_KARAKTER');
 define('JWT_EXPIRY', 604800);               // 7 gün
 
 // Versiyon Kontrolü (CSS/JS Cache Busting için)
-define('ASSET_VERSION', '1.1.3');
-define('SYSTEM_VERSION', 'v1.1.3');
+define('ASSET_VERSION', '1.1.4');
+define('SYSTEM_VERSION', 'v1.1.4');
 
 // =====================================================
 // FİYAT KONTROL AYARLARI

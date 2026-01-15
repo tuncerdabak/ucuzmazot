@@ -14,7 +14,7 @@ include 'includes/header.php';
             </div>
 
             <div class="download-actions">
-                <a href="/android_uygulama/ucuzmazot.apk" class="btn btn-primary btn-lg download-btn">
+                <a href="/android_uygulama/ucuzmazot_v1.apk" class="btn btn-primary btn-lg download-btn">
                     <i class="fab fa-android"></i> Android APK İndir (V1.0.0)
                 </a>
                 <p class="file-info text-muted">Boyut: ~5.4 MB | Versiyon: 1.0.0</p>

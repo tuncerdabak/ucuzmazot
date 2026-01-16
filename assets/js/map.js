@@ -174,6 +174,9 @@ function createStationIcon(station, isSelected = false) {
         bgColor = 'var(--warning)'; // Sarı (Ortalama)
     }
 
+    // Mobil Kontrolü
+    const isMobile = window.innerWidth < 768;
+
     // Fiyat Metni Belirleme
     let priceText;
 
@@ -189,11 +192,19 @@ function createStationIcon(station, isSelected = false) {
         const price = station.diesel_price;
         if (price && price > 0) {
             const formatted = price.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            priceText = `<span class="digital-price" style="font-size: 1.1rem; color: #fff; text-shadow: none;">${formatted}</span> <span style="font-size: 0.7rem; opacity: 0.9;">TL</span>`;
+            const fontSize = isMobile ? '0.9rem' : '1.1rem';
+            const unitSize = isMobile ? '0.6rem' : '0.7rem';
+            priceText = `<span class="digital-price" style="font-size: ${fontSize}; color: #fff; text-shadow: none;">${formatted}</span> <span style="font-size: ${unitSize}; opacity: 0.9;">TL</span>`;
         } else {
             priceText = '-';
         }
     }
+
+    const padding = isMobile ? '3px 6px' : '6px 10px';
+    const borderRadius = isMobile ? '12px' : '20px';
+    const fontSize = isMobile ? '10px' : '12px';
+    const iconSize = isMobile ? [60, 24] : [80, 30];
+    const iconAnchor = isMobile ? [30, 12] : [40, 15];
 
     return L.divIcon({
         className: 'station-marker',
@@ -201,9 +212,9 @@ function createStationIcon(station, isSelected = false) {
             <div style="
                 background: ${bgColor};
                 color: white;
-                padding: 6px 10px;
-                border-radius: 20px;
-                font-size: 12px;
+                padding: ${padding};
+                border-radius: ${borderRadius};
+                font-size: ${fontSize};
                 font-weight: 600;
                 white-space: nowrap;
                 box-shadow: 0 2px 8px rgba(0,0,0,0.2);
@@ -215,8 +226,8 @@ function createStationIcon(station, isSelected = false) {
                 ${priceText}
             </div>
         `,
-        iconSize: [80, 30],
-        iconAnchor: [40, 15]
+        iconSize: iconSize,
+        iconAnchor: iconAnchor
     });
 }
 

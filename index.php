@@ -178,7 +178,7 @@ require_once INCLUDES_PATH . '/header.php';
 
     <!-- App Download Banner (Mobile Only) -->
     <div class="app-download-banner show-on-mobile hide-in-app"
-        style="position:fixed; top:70px; left:10px; right:10px; z-index:1000; background:var(--white); padding:10px; border-radius:12px; box-shadow:var(--shadow-lg); display:flex; align-items:center; gap:12px; border:1px solid var(--gray-100);">
+        style="position:fixed; top:80px; left:10px; right:10px; z-index:9999; background:var(--white); padding:10px; border-radius:12px; box-shadow:var(--shadow-lg); display:flex; align-items:center; gap:12px; border:1px solid var(--gray-100);">
         <i class="fas fa-mobile-alt" style="font-size:1.5rem; color:var(--primary);"></i>
         <div style="flex:1;">
             <div style="font-weight:700; font-size:0.875rem;">Hemen Başla!</div>
@@ -316,27 +316,5 @@ require_once INCLUDES_PATH . '/header.php';
         }
     });
 </script>
-border-bottom: 1px solid var(--gray-200);
-}
-
-.stations-panel.expanded {
-transform: none;
-}
-
-.panel-toggle {
-display: none;
-}
-
-.map-search-bar {
-width: 90%;
-top: 10px;
-}
-
-.city-select {
-display: none;
-}
-}
-</style>
-
 
 <?php require_once INCLUDES_PATH . '/footer.php'; ?>

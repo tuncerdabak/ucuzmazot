@@ -157,9 +157,10 @@ $pageDescription = $pageDescription ?? 'Türkiye genelinde en ucuz mazot fiyatla
                             </a>
                         <?php endif; ?>
                     <?php else: ?>
-                        <a href="<?= url('/station/login.php') ?>" class="btn btn-sm btn-outline">
-                            İstasyon Girişi
-                        </a>
+                        <button onclick="openAuthModal()" class="btn btn-sm btn-primary">
+                            <i class="fas fa-user-circle"></i>
+                            Giriş Yap / Üye Ol
+                        </button>
                     <?php endif; ?>
 
                     <!-- Theme Toggle -->
@@ -211,10 +212,11 @@ $pageDescription = $pageDescription ?? 'Türkiye genelinde en ucuz mazot fiyatla
                     <span>Çıkış Yap</span>
                 </a>
             <?php else: ?>
-                <a href="<?= url('/station/login.php') ?>" class="nav-link">
+                <button onclick="openAuthModal()" class="nav-link w-full text-left"
+                    style="background:none; border:none; padding: var(--space-3) var(--space-4);">
                     <i class="fas fa-sign-in-alt"></i>
-                    <span>İstasyon Girişi</span>
-                </a>
+                    <span>Giriş Yap / Üye Ol</span>
+                </button>
             <?php endif; ?>
 
             <div class="border-t my-2 pt-2"></div>

@@ -102,56 +102,86 @@
     <div class="modal-content">
         <button class="close-modal" onclick="closeAuthModal()"><i class="fas fa-times"></i></button>
 
-        <div class="modal-header">
-            <div class="modal-icon">
-                <i class="fas fa-gas-pump"></i>
+        <!-- ADIM 1: SEÇİM EKRANI -->
+        <div id="authStepSelection">
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <i class="fas fa-gas-pump"></i>
+                </div>
+                <h2>Kullanım Amacını Seç</h2>
+                <p>Devam etmek için lütfen giriş türünü seçiniz.</p>
             </div>
-            <h2>Fiyatları Görmek İçin Devam Et</h2>
-            <p>Sadece telefon numaranızla saniyeler içinde giriş yapın.</p>
+
+            <div class="auth-selection-grid">
+                <button class="auth-selection-card" onclick="goToAuthForm()">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3>Şoförüm</h3>
+                    <p>Fiyatları gör ve karşılaştır</p>
+                </button>
+                <a href="/station/login.php" class="auth-selection-card">
+                    <div class="icon-wrapper station">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <h3>İstasyonum</h3>
+                    <p>İstasyonunu yönet ve fiyat gir</p>
+                </a>
+            </div>
         </div>
 
-        <form id="quickAuthForm">
-            <div class="auth-tabs">
-                <button type="button" class="auth-tab active" data-action="register"
-                    onclick="setAuthMode('register')">Hızlı Kayıt</button>
-                <button type="button" class="auth-tab" data-action="login" onclick="setAuthMode('login')">Giriş
-                    Yap</button>
+        <!-- ADIM 2: FORM (ŞOFÖR İÇİN) -->
+        <div id="authStepForm" style="display: none;">
+            <div class="modal-header">
+                <button onclick="backToSelection()" class="back-btn"><i class="fas fa-arrow-left"></i> Geri</button>
+                <h2>Fiyatları Görmek İçin Devam Et</h2>
+                <p>Sadece telefon numaranızla saniyeler içinde giriş yapın.</p>
             </div>
 
-            <input type="hidden" name="action" id="authAction" value="register">
-
-            <div class="form-group" id="nameGroup">
-                <label>Ad Soyad</label>
-                <input type="text" name="name" class="form-control" placeholder="Adınız Soyadınız" required>
-            </div>
-
-            <div class="form-group">
-                <label>Telefon Numarası</label>
-                <input type="tel" name="phone" class="form-control" placeholder="05XX XXX XX XX" required
-                    style="font-size:1.2rem; letter-spacing:1px;">
-            </div>
-
-            <div class="form-group" id="passwordGroup" style="display:none;">
-                <label>Şifre</label>
-                <div class="password-input-wrapper" style="position:relative;">
-                    <input type="password" name="password" id="authPassword" class="form-control"
-                        placeholder="Şifreniz">
-                    <button type="button" class="btn-toggle-password" onclick="toggleAuthPassword()"
-                        style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--gray-400);">
-                        <i class="fas fa-eye"></i>
-                    </button>
+            <form id="quickAuthForm">
+                <div class="auth-tabs">
+                    <button type="button" class="auth-tab active" data-action="register"
+                        onclick="setAuthMode('register')">Hızlı Kayıt</button>
+                    <button type="button" class="auth-tab" data-action="login" onclick="setAuthMode('login')">Giriş
+                        Yap</button>
                 </div>
-            </div>
 
-            <button type="submit" class="btn btn-primary w-full btn-lg">
-                <i class="fas fa-user-plus"></i> Ücretsiz Kayıt Ol
-            </button>
+                <input type="hidden" name="action" id="authAction" value="register">
 
-            <p class="terms-text">
-                Uygulamayı kullanarak <a href="/kullanim-sartlari.php" target="_blank">Kullanım Şartları</a>'nı kabul
-                etmiş sayılırsınız.
-            </p>
-        </form>
+                <div class="form-group" id="nameGroup">
+                    <label>Ad Soyad</label>
+                    <input type="text" name="name" class="form-control" placeholder="Adınız Soyadınız" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Telefon Numarası</label>
+                    <input type="tel" name="phone" class="form-control" placeholder="05XX XXX XX XX" required
+                        style="font-size:1.2rem; letter-spacing:1px;">
+                </div>
+
+                <div class="form-group" id="passwordGroup" style="display:none;">
+                    <label>Şifre</label>
+                    <div class="password-input-wrapper" style="position:relative;">
+                        <input type="password" name="password" id="authPassword" class="form-control"
+                            placeholder="Şifreniz">
+                        <button type="button" class="btn-toggle-password" onclick="toggleAuthPassword()"
+                            style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--gray-400);">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-premium w-full btn-lg">
+                    <i class="fas fa-user-plus"></i> Ücretsiz Kayıt Ol
+                </button>
+
+                <p class="terms-text">
+                    Uygulamayı kullanarak <a href="/kullanim-sartlari.php" target="_blank">Kullanım Şartları</a>'nı
+                    kabul etmiş
+                    sayılırsınız.
+                </p>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -159,12 +189,27 @@
     // Global Modal Functions
     function openAuthModal() {
         const m = document.getElementById('authModal');
-        if (m) m.classList.add('active');
+        if (m) {
+            m.classList.add('active');
+            // Her açılışta seçime resetle
+            backToSelection();
+        }
     }
 
     function closeAuthModal() {
         const m = document.getElementById('authModal');
         if (m) m.classList.remove('active');
+    }
+
+    function goToAuthForm() {
+        document.getElementById('authStepSelection').style.display = 'none';
+        document.getElementById('authStepForm').style.display = 'block';
+        // Animasyon için class eklenebilir ama display block yeterli şimdilik
+    }
+
+    function backToSelection() {
+        document.getElementById('authStepForm').style.display = 'none';
+        document.getElementById('authStepSelection').style.display = 'block';
     }
 
     function setAuthMode(mode) {
@@ -219,7 +264,9 @@
 
         // Kart Tıklamaları (Blur için) - Global Delegated Event
         document.addEventListener('click', function (e) {
-            if (e.target.closest('.auth-trigger')) {
+            // .auth-trigger classına sahip herhangi bir elemente veya parentına tıklanırsa
+            const trigger = e.target.closest('.auth-trigger');
+            if (trigger) {
                 e.preventDefault();
                 e.stopPropagation();
                 openAuthModal();

@@ -1830,12 +1830,12 @@ body.is-app .hide-in-app {
 }
 
 [data-theme="dark"] .mobile-menu-toggle {
-    color: var(--gray-400);
+    color: var(--gray-300);
 }
 
 [data-theme="dark"] .mobile-menu-toggle:hover {
     background: rgba(255, 255, 255, 0.1);
-    color: var(--primary-light);
+    color: var(--white);
 }
 
 /* Mobile Menu - Premium Glassmorphism */
@@ -1886,11 +1886,13 @@ body.is-app .hide-in-app {
 [data-theme="dark"] .mobile-menu .nav-link {
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
     border: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--gray-300);
 }
 
 [data-theme="dark"] .mobile-menu .nav-link:hover {
     background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.1));
     border-color: rgba(59, 130, 246, 0.3);
+    color: var(--white);
 }
 
 @keyframes slideDown {
@@ -2314,6 +2316,144 @@ body.is-app .hide-in-app {
 .terms-text a {
     color: var(--primary);
     font-weight: 500;
+}
+
+/* =====================================================
+   PREMIUM AUTH SELECTION STEP
+   ===================================================== */
+.auth-selection-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+}
+
+.auth-selection-card {
+    background: transparent;
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5) var(--space-3);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray-800);
+    text-decoration: none;
+    min-height: 160px;
+}
+
+.auth-selection-card:hover {
+    border-color: var(--primary);
+    background: rgba(37, 99, 235, 0.02);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.15);
+}
+
+.auth-selection-card .icon-wrapper {
+    width: 64px;
+    height: 64px;
+    background: var(--gray-100);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    color: var(--gray-600);
+    margin-bottom: var(--space-3);
+    transition: all 0.3s ease;
+}
+
+.auth-selection-card:hover .icon-wrapper {
+    background: var(--primary);
+    color: white;
+    transform: scale(1.1) rotate(-5deg);
+}
+
+.auth-selection-card .icon-wrapper.station {
+    /* İstasyon ikonu için özel stil (opsiyonel) */
+}
+
+.auth-selection-card:hover .icon-wrapper.station {
+    background: var(--secondary);
+    /* Sarı/Turuncu */
+    transform: scale(1.1) rotate(5deg);
+}
+
+.auth-selection-card:hover {
+    /* İstasyon kartı hover'ında border rengini de sarı yapabiliriz */
+}
+
+/* Şoför kartı mavi, İstasyon kartı sarı/turuncu border */
+.auth-selection-card:nth-child(1):hover {
+    border-color: var(--primary);
+}
+
+.auth-selection-card:nth-child(2):hover {
+    border-color: var(--secondary);
+}
+
+.auth-selection-card h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: var(--space-1);
+    color: var(--gray-800);
+}
+
+.auth-selection-card p {
+    font-size: 0.8rem;
+    color: var(--gray-500);
+    line-height: 1.4;
+    max-width: 140px;
+}
+
+/* Dark Mode Selection Card */
+[data-theme="dark"] .auth-selection-card {
+    border-color: rgba(255, 255, 255, 0.1);
+    color: var(--white);
+}
+
+[data-theme="dark"] .auth-selection-card .icon-wrapper {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--gray-400);
+}
+
+[data-theme="dark"] .auth-selection-card h3 {
+    color: var(--white);
+}
+
+[data-theme="dark"] .auth-selection-card p {
+    color: var(--gray-400);
+}
+
+/* Back Button in Modal Form Step */
+.back-btn {
+    position: absolute;
+    top: var(--space-4);
+    left: var(--space-4);
+    background: none;
+    border: none;
+    color: var(--gray-500);
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: var(--radius);
+    transition: all 0.2s;
+}
+
+.back-btn:hover {
+    color: var(--primary);
+    background: var(--gray-100);
+}
+
+[data-theme="dark"] .back-btn:hover {
+    color: var(--primary-light);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 /* =====================================================

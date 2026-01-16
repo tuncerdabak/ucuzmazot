@@ -23,9 +23,10 @@ IGNORE_GITIGNORE=true
 
 ### Adım 2: deploy.php Scriptini Kopyalayın
 `scripts/deploy.php` dosyasını projeye ekleyin. Bu script:
-- Sadece değişen dosyaları gönderir.
+- **Smart Sync v2.0:** Sadece değişen dosyaları gönderir.
+- **Lokal Takip:** `.deploy_state.json` dosyası üzerinden dosya değişikliklerini (mtime) takip eder.
+- **Hız:** Değişmeyen dosyaları milisaniyeler içinde atlayarak sadece farkları gönderir.
 - `.gitignore` dosyasına bakarak `node_modules`, `.git` gibi kalabalık dosyaları atlar.
-- PHP'nin `ftp_connect` fonksiyonunu kullanır.
 
 ### Adım 3: .agent/workflows Klasörünü Yapılandırın
 Komutların tetiklenmesi için `.agent/workflows/` altına `gonder.md` ve `guncelle.md` dosyalarını ekleyin.
@@ -33,12 +34,13 @@ Komutların tetiklenmesi için `.agent/workflows/` altına `gonder.md` ve `gunce
 ## 3. Çalışma Mantığı (Best Practices)
 
 1. **Lokal Test:** Değişiklikleri XAMPP/Localhost üzerinde yapın.
-2. **"gönder" Komutu:** Değişikliği anında canlıya yansıtmak için kullanın. Hızlıdır ve doğrudan FTP'ye yükler.
+2. **"gönder" Komutu:** Değişikliği anında canlıya yansıtmak için kullanın. Smart Sync sayesinde sadece dokunduğunuz dosyalar saniyeler içinde gider.
 3. **Canlıda Kontrol:** Sitenin canlı halini kontrol edin.
 4. **"güncelle" Komutu:** Her şey yolundaysa, yapılan işi kalıcı olarak yedeklemek için GitHub'a pushlayın.
 
-## 4. Güvenlik Notları
-- **.gitignore:** `.env` dosyasını mutlaka `.gitignore` içine ekleyin! FTP şifreleriniz asla GitHub'a gitmemelidir.
+## 4. Güvenlik ve Önemli Notlar
+- **.gitignore:** `.env` ve `.deploy_state.json` dosyalarını mutlaka `.gitignore` içine ekleyin! 
+- **State Dosyası:** `.deploy_state.json` silinirse, bir sonraki `gonder` komutu her şeyi tekrar full olarak yükler.
 - **Actions:** GitHub Actions üzerinden otomatik FTP dağıtımını iptal edin (çakışma olmaması için).
 
 ---

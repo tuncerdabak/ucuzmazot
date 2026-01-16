@@ -8,7 +8,9 @@
     position: relative;
     overflow: hidden;
     background-color: var(--gray-50);
-    overscroll-behavior-y: contain; /* Sayfa yenilenmesini (pull-to-refresh) önler */
+    overscroll-behavior-y: contain;
+    touch-action: pan-x pan-y;
+    /* Pull-to-refresh ve zoom çakışmalarını önler */
 }
 
 [data-theme="dark"] .home-page {
@@ -25,7 +27,8 @@
 .map-container {
     width: 100%;
     height: 100%;
-    touch-action: pan-x pan-y; /* Harita üzerinde parmak hareketlerini optimize eder */
+    touch-action: pan-x pan-y;
+    /* Harita üzerinde parmak hareketlerini optimize eder */
 }
 
 /* Floating Sidebar */
@@ -216,7 +219,8 @@
 
 /* Marka Logo */
 .brand-box {
-    width: 52px; /* Biraz büyütüldü */
+    width: 52px;
+    /* Biraz büyütüldü */
     height: 52px;
     background: var(--white);
     border-radius: var(--radius-md);
@@ -226,7 +230,8 @@
     flex-shrink: 0;
     overflow: hidden;
     border: 1px solid var(--gray-100);
-    padding: 4px; /* Logoların kenara yapışmasını önler */
+    padding: 4px;
+    /* Logoların kenara yapışmasını önler */
 }
 
 .brand-box img {
@@ -262,8 +267,14 @@
     align-items: center;
     gap: 0.25rem;
     font-size: 0.75rem;
-    color: var(--gray-500);
-    font-weight: 500;
+    color: var(--primary);
+    /* Renk mavi yapıldı */
+    font-weight: 600;
+    background: rgba(37, 99, 235, 0.1);
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(37, 99, 235, 0.2);
+    white-space: nowrap;
 }
 
 .status-badge {
@@ -274,16 +285,16 @@
 }
 
 .status-best {
-    background: rgba(16, 185, 129, 0.15);
+    background: rgba(16, 185, 129, 0.2);
     color: var(--success);
-    border: 1px solid rgba(16, 185, 129, 0.3);
+    border: 1px solid rgba(16, 185, 129, 0.4);
 }
 
-.distance-badge {
-    background: rgba(37, 99, 235, 0.08); /* Hafif mavi arka plan */
-    padding: 2px 8px;
-    border-radius: var(--radius-full);
-    border: 1px solid rgba(37, 99, 235, 0.2);
+/* Mükerrer kural kaldırıldı ve güncellendi */
+.price-date {
+    margin-top: 4px;
+    font-size: 0.65rem;
+    color: var(--gray-500);
 }
 
 /* Fiyat Alanı */
@@ -292,7 +303,8 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    padding-bottom: 4px; /* Alttan biraz boşluk */
+    padding-bottom: 4px;
+    /* Alttan biraz boşluk */
 }
 
 .main-price {

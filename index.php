@@ -113,8 +113,8 @@ require_once INCLUDES_PATH . '/header.php';
                         data-lng="<?= $station['lng'] ?>">
                         <div class="brand-box">
                             <?php if ($logo): ?>
-                                <img src="<?= $logo ?>" alt="<?= e($station['brand']) ?>" onerror="this.innerHTML='<i class=\" fas
-                                    fa-gas-pump\"></i>'">
+                                <img src="<?= $logo ?>" alt="<?= e($station['brand']) ?>"
+                                    onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNjY2MiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNOSAxMiBMOSAxMiIgLz48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSIxMCIgLz48L3N2Zz4=';">
                             <?php else: ?>
                                 <i class="fas fa-gas-pump" style="color:var(--gray-300);"></i>
                             <?php endif; ?>

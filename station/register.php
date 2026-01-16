@@ -238,7 +238,13 @@ $pageTitle = 'İstasyon Kaydı - ' . SITE_NAME;
 
                 <!-- Konum Seçimi -->
                 <fieldset class="form-section">
-                    <legend><i class="fas fa-map-marker-alt"></i> Konum Seçimi *</legend>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <legend class="m-0"><i class="fas fa-map-marker-alt"></i> Konum Seçimi *</legend>
+                        <button type="button" id="btnFindOnMap" class="btn btn-xs btn-outline-primary"
+                            style="font-size: 0.75rem; padding: 2px 8px;">
+                            <i class="fas fa-search-location"></i> Adreste Ara
+                        </button>
+                    </div>
                     <p class="form-text mb-3">Haritaya tıklayarak istasyonunuzun konumunu işaretleyin.</p>
 
                     <div id="locationMap"
@@ -324,6 +330,55 @@ $pageTitle = 'İstasyon Kaydı - ' . SITE_NAME;
                 locationText.textContent = lat.toFixed(6) + ', ' + lng.toFixed(6);
                 selectedLocation.style.display = 'block';
             }
+
+            // Adreste Ara
+            const btnFindOnMap = document.getElementById('btnFindOnMap');
+            const citySelect = document.getElementById('citySelect');
+            const districtInput = document.querySelector('input[name="district"]');
+
+            btnFindOnMap.addEventListener('click', function () {
+                const city = citySelect.value;
+                const district = districtInput.value;
+                if (!city) {
+                    alert('Lütfen önce şehir seçin.');
+                    return;
+                }
+
+                const query = `${district ? district + ', ' : ''}${city}, Türkiye`;
+                btnFindOnMap.disabled = true;
+                btnFindOnMap.innerHTML = '<i class="fas fa-spinner fa-spin"></i>...';
+
+                fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data && data.length > 0) {
+                            const lat = parseFloat(data[0].lat);
+                            const lon = parseFloat(data[0].lon);
+
+                            if (marker) {
+                                marker.setLatLng([lat, lon]);
+                            } else {
+                                marker = L.marker([lat, lon], { draggable: true }).addTo(map);
+                                marker.on('dragend', function () {
+                                    const pos = marker.getLatLng();
+                                    updateLocation(pos.lat, pos.lng);
+                                });
+                            }
+                            map.setView([lat, lon], 15);
+                            updateLocation(lat, lon);
+                        } else {
+                            alert('Konum bulunamadı. Lütfen adresi kontrol edin.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Geocoder error:', error);
+                        alert('Arama sırasında bir hata oluştu.');
+                    })
+                    .finally(() => {
+                        btnFindOnMap.disabled = false;
+                        btnFindOnMap.innerHTML = '<i class="fas fa-search-location"></i> Adreste Ara';
+                    });
+            });
         });
     </script>
 

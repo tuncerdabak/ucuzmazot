@@ -205,28 +205,32 @@ require_once __DIR__ . '/includes/header.php';
                 </div>
 
                 <!-- Harita -->
-                <div class="form-group mb-4">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <label class="form-label mb-0">İstasyon Konumu *</label>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <label class="form-label mb-0">İstasyon Konumu *</label>
+                    <div class="d-flex gap-2">
+                        <button type="button" id="btnFindOnMap" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-search-location"></i> Adreste Ara
+                        </button>
                         <button type="button" id="btnGetLocation" class="btn btn-sm btn-info">
                             <i class="fas fa-map-marker-alt"></i> Konumumu Bul
                         </button>
                     </div>
-                    <div id="locationMap"
-                        style="height: 350px; border-radius: var(--radius); border: 1px solid var(--gray-200);"></div>
-                    <input type="hidden" name="lat" id="latInput" value="<?= e($formData['lat']) ?>">
-                    <input type="hidden" name="lng" id="lngInput" value="<?= e($formData['lng']) ?>">
-                    <div class="mt-2 text-sm text-gray" id="locationText">
-                        <?= $formData['lat'] ? $formData['lat'] . ', ' . $formData['lng'] : 'Haritadan konum seçin.' ?>
-                    </div>
                 </div>
-
-                <button type="submit" class="btn btn-primary w-100 py-3">
-                    <i class="fas fa-save"></i> İstasyonu Oluştur
-                </button>
-            </form>
+                <div id="locationMap"
+                    style="height: 350px; border-radius: var(--radius); border: 1px solid var(--gray-200);"></div>
+                <input type="hidden" name="lat" id="latInput" value="<?= e($formData['lat']) ?>">
+                <input type="hidden" name="lng" id="lngInput" value="<?= e($formData['lng']) ?>">
+                <div class="mt-2 text-sm text-gray" id="locationText">
+                    <?= $formData['lat'] ? $formData['lat'] . ', ' . $formData['lng'] : 'Haritadan konum seçin.' ?>
+                </div>
         </div>
+
+        <button type="submit" class="btn btn-primary w-100 py-3">
+            <i class="fas fa-save"></i> İstasyonu Oluştur
+        </button>
+        </form>
     </div>
+</div>
 </div>
 
 <script>
@@ -292,6 +296,44 @@ require_once __DIR__ . '/includes/header.php';
 
         map.on('click', function (e) {
             updateMarker(e.latlng.lat, e.latlng.lng);
+        });
+
+        // Adreste Ara
+        const btnFindOnMap = document.getElementById('btnFindOnMap');
+        const citySelect = document.querySelector('select[name="city"]');
+        const districtInput = document.querySelector('input[name="district"]');
+
+        btnFindOnMap.addEventListener('click', function () {
+            const city = citySelect.value;
+            const district = districtInput.value;
+            if (!city) {
+                alert('Lütfen önce şehir seçin.');
+                return;
+            }
+
+            const query = `${district ? district + ', ' : ''}${city}, Türkiye`;
+            btnFindOnMap.disabled = true;
+            btnFindOnMap.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Aranıyor...';
+
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.length > 0) {
+                        const lat = parseFloat(data[0].lat);
+                        const lon = parseFloat(data[0].lon);
+                        updateMarker(lat, lon, true);
+                    } else {
+                        alert('Konum bulunamadı. Lütfen adresi kontrol edin.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Geocoder error:', error);
+                    alert('Arama sırasında bir hata oluştu.');
+                })
+                .finally(() => {
+                    btnFindOnMap.disabled = false;
+                    btnFindOnMap.innerHTML = '<i class="fas fa-search-location"></i> Adreste Ara';
+                });
         });
 
         // Konumumu Bul

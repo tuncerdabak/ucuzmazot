@@ -77,7 +77,15 @@ $pageDescription = $pageDescription ?? 'Türkiye genelinde en ucuz mazot fiyatla
 
     <!-- PWA -->
     <link rel="manifest" href="<?= url('manifest.json') ?>">
-    <meta name="theme-color" content="#2563eb">
+
+    <!-- iOS PWA Meta -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="UcuzMazot">
+
+    <!-- Dynamic Theme Color -->
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#111827" media="(prefers-color-scheme: dark)">
     <script src="<?= asset('js/theme-toggle.js') ?>"></script>
     <script>
         if ('serviceWorker' in navigator) {

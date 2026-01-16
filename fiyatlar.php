@@ -205,9 +205,9 @@ require_once INCLUDES_PATH . '/header.php';
                     $pGas = formatObfuscatedPrice($station['gasoline_price']);
                     $pLpg = formatObfuscatedPrice($station['lpg_price']);
                 } else {
-                    $pDiesel = ['visible' => formatPrice($station['diesel_price']) . ' ₺', 'blurred' => ''];
-                    $pGas = ['visible' => formatPrice($station['gasoline_price']) . ' ₺', 'blurred' => ''];
-                    $pLpg = ['visible' => formatPrice($station['lpg_price']) . ' ₺', 'blurred' => ''];
+                    $pDiesel = ['visible' => formatPrice($station['diesel_price']), 'blurred' => ''];
+                    $pGas = ['visible' => formatPrice($station['gasoline_price']), 'blurred' => ''];
+                    $pLpg = ['visible' => formatPrice($station['lpg_price']), 'blurred' => ''];
                 }
                 ?>
                 <div class="col-12">

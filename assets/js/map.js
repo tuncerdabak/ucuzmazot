@@ -164,14 +164,14 @@ function createUserIcon() {
  */
 function createStationIcon(station, isSelected = false) {
     // Fiyat Seviyesine Göre Renk Belirleme
-    let bgColor = '#2563eb'; // Varsayılan Mavi
+    let bgColor = 'var(--primary)'; // Varsayılan Mavi
 
     if (station.price_level === 'cheap') {
-        bgColor = '#10b981'; // Yeşil (Ucuz)
+        bgColor = 'var(--success)'; // Yeşil (Ucuz)
     } else if (station.price_level === 'expensive') {
-        bgColor = '#ef4444'; // Kırmızı (Pahalı)
+        bgColor = 'var(--danger)'; // Kırmızı (Pahalı)
     } else if (station.price_level === 'average') {
-        bgColor = '#f59e0b'; // Sarı (Ortalama)
+        bgColor = 'var(--warning)'; // Sarı (Ortalama)
     }
 
     // Fiyat Metni Belirleme

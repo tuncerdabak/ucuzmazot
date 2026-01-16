@@ -154,8 +154,8 @@ require_once INCLUDES_PATH . '/header.php';
                             <?php endif; ?>
                         </div>
 
-                        <a href="/istasyon-detay.php?id=<?= $station['id'] ?>" class="nav-btn-circle">
-                            <i class="fas fa-navigation"></i>
+                        <a href="/istasyon-detay.php?id=<?= $station['id'] ?>" class="nav-btn-circle" title="Detaylar">
+                            <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>
                 <?php endforeach; ?>

@@ -22,7 +22,10 @@ function initMap(elementId, options = {}) {
     const config = { ...defaults, ...options };
 
     map = L.map(elementId, {
-        zoomControl: false
+        zoomControl: false,
+        tap: !L.Browser.mobile, // Mobilde tap özelliğini kapatarak çakışmaları önle
+        bounceAtZoomLimits: false,
+        touchZoom: 'center'
     }).setView(config.center, config.zoom);
 
     // Harita tile layer

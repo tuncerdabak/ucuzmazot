@@ -557,6 +557,9 @@ require_once INCLUDES_PATH . '/header.php';
         flex: 1;
         overflow-y: auto;
         padding: var(--space-2);
+        overscroll-behavior: contain;
+        /* Pull-to-refresh engelleme */
+        -webkit-overflow-scrolling: touch;
     }
 
     /* İstasyon Kartı */

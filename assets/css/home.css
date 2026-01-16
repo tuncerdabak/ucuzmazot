@@ -390,4 +390,54 @@
         overflow-x: auto;
         padding-bottom: 0.5rem;
     }
+
+    /* Panel Toggle Button (Mobile) */
+    .panel-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 50px;
+        background: var(--white);
+        border: none;
+        border-top: 1px solid var(--gray-200);
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--gray-700);
+        z-index: 1001;
+        cursor: pointer;
+        transition: all var(--transition);
+    }
+
+    [data-theme="dark"] .panel-toggle {
+        background: var(--background-dark);
+        border-color: rgba(255, 255, 255, 0.05);
+        color: var(--gray-300);
+    }
+
+    .panel-toggle i {
+        transition: transform 0.3s ease;
+    }
+
+    .stations-panel.expanded+.panel-toggle i {
+        transform: rotate(180deg);
+    }
+
+    /* Map Search Bar Mobile Adjustment */
+    .map-search-bar {
+        width: 90%;
+        top: 10px;
+    }
+
+}
+
+/* Panel Toggle - Hidden on Desktop */
+@media (min-width: 769px) {
+    .panel-toggle {
+        display: none !important;
+    }
 }

@@ -18,10 +18,21 @@ mb_internal_encoding('UTF-8');
 // =====================================================
 // VERİTABANI AYARLARI
 // =====================================================
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'tuncerda_ucuzmazot');
-define('DB_USER', 'tuncerda_mazotcu');
-define('DB_PASS', 'Td3492549*');
+// Eğer localhost ('localhost' veya '127.0.0.1') üzerinden çalışıyorsak yerel ayarları kullan
+$whitelist = array('127.0.0.1', '::1', 'localhost');
+if (in_array($_SERVER['REMOTE_ADDR'] ?? '', $whitelist) || php_sapi_name() === 'cli-server' || php_sapi_name() === 'cli') {
+    // XAMPP / Localhost (Artık üretim kullanıcısı ile aynı)
+    define('DB_HOST', 'localhost');
+    define('DB_NAME', 'tuncerda_ucuzmazot');
+    define('DB_USER', 'tuncerda_mazotcu');
+    define('DB_PASS', 'Td3492549*');
+} else {
+    // Canlı Sunucu (Production)
+    define('DB_HOST', 'localhost');
+    define('DB_NAME', 'tuncerda_ucuzmazot');
+    define('DB_USER', 'tuncerda_mazotcu');
+    define('DB_PASS', 'Td3492549*');
+}
 define('DB_CHARSET', 'utf8mb4');
 
 // =====================================================

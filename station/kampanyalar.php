@@ -17,6 +17,16 @@ if (!$station) {
 
 $error = '';
 $success = '';
+$editCampaign = null;
+
+// Düzenleme modu
+if (isset($_GET['edit'])) {
+    $editId = (int) $_GET['edit'];
+    $editCampaign = db()->fetchOne(
+        "SELECT * FROM campaigns WHERE id = ? AND station_id = ?",
+        [$editId, $station['id']]
+    );
+}
 
 // Kampanya Silme
 if (isset($_GET['delete'])) {
@@ -27,7 +37,7 @@ if (isset($_GET['delete'])) {
     redirect('/station/kampanyalar.php');
 }
 
-// Kampanya Ekleme
+// Kampanya Ekleme/Güncelleme
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!verifyCsrfToken($_POST['csrf_token'] ?? '')) {
         $error = 'Geçersiz istek.';
@@ -35,19 +45,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $title = trim($_POST['title'] ?? '');
         $description = trim($_POST['description'] ?? '');
         $endDate = $_POST['end_date'] ?? null;
+        $campaignId = (int) ($_POST['campaign_id'] ?? 0);
 
         if (empty($title)) {
             $error = 'Kampanya başlığı zorunludur.';
         } else {
-            db()->insert('campaigns', [
-                'station_id' => $station['id'],
-                'title' => $title,
-                'description' => $description ?: null,
-                'end_date' => $endDate ?: null,
-                'is_active' => 1
-            ]);
-
-            $success = 'Kampanya başarıyla oluşturuldu!';
+            if ($campaignId > 0) {
+                // Güncelleme
+                db()->update('campaigns', [
+                    'title' => $title,
+                    'description' => $description ?: null,
+                    'end_date' => $endDate ?: null
+                ], 'id = ? AND station_id = ?', [$campaignId, $station['id']]);
+                $success = 'Kampanya başarıyla güncellendi!';
+            } else {
+                // Yeni ekleme
+                db()->insert('campaigns', [
+                    'station_id' => $station['id'],
+                    'title' => $title,
+                    'description' => $description ?: null,
+                    'end_date' => $endDate ?: null,
+                    'is_active' => 1
+                ]);
+                $success = 'Kampanya başarıyla oluşturuldu!';
+            }
+            $editCampaign = null; // Formu temizle
         }
     }
 }
@@ -86,36 +108,52 @@ require_once __DIR__ . '/includes/header.php';
 <?php endif; ?>
 
 <div class="content-grid two-column">
-    <!-- Yeni Kampanya Formu -->
+    <!-- Kampanya Formu (Ekle/Düzenle) -->
     <div class="card">
         <div class="card-header">
-            <h3><i class="fas fa-plus-circle"></i> Yeni Kampanya Ekle</h3>
+            <?php if ($editCampaign): ?>
+                <h3><i class="fas fa-edit"></i> Kampanyayı Düzenle</h3>
+            <?php else: ?>
+                <h3><i class="fas fa-plus-circle"></i> Yeni Kampanya Ekle</h3>
+            <?php endif; ?>
         </div>
         <div class="card-body">
             <form method="POST">
                 <input type="hidden" name="csrf_token" value="<?= csrfToken() ?>">
+                <input type="hidden" name="campaign_id" value="<?= $editCampaign['id'] ?? 0 ?>">
 
                 <div class="form-group">
                     <label class="form-label">Kampanya Başlığı</label>
-                    <input type="text" name="title" class="form-control" required
-                        placeholder="Örn: %10 İndirim Fırsatı">
+                    <input type="text" name="title" class="form-control" required placeholder="Örn: %10 İndirim Fırsatı"
+                        value="<?= e($editCampaign['title'] ?? '') ?>">
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Açıklama</label>
                     <textarea name="description" class="form-control" rows="3"
-                        placeholder="Kampanya detaylarını buraya yazın..."></textarea>
+                        placeholder="Kampanya detaylarını buraya yazın..."><?= e($editCampaign['description'] ?? '') ?></textarea>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Bitiş Tarihi (Opsiyonel)</label>
-                    <input type="date" name="end_date" class="form-control">
+                    <input type="date" name="end_date" class="form-control"
+                        value="<?= $editCampaign['end_date'] ?? '' ?>">
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-lg w-full">
-                    <i class="fas fa-check"></i>
-                    Kampanyayı Yayınla
-                </button>
+                <?php if ($editCampaign): ?>
+                    <div class="btn-group" style="display: flex; gap: 10px;">
+                        <button type="submit" class="btn btn-primary btn-lg" style="flex: 1;">
+                            <i class="fas fa-save"></i> Değişiklikleri Kaydet
+                        </button>
+                        <a href="kampanyalar.php" class="btn btn-outline btn-lg">
+                            <i class="fas fa-times"></i> İptal
+                        </a>
+                    </div>
+                <?php else: ?>
+                    <button type="submit" class="btn btn-primary btn-lg w-full">
+                        <i class="fas fa-check"></i> Kampanyayı Yayınla
+                    </button>
+                <?php endif; ?>
             </form>
         </div>
     </div>
@@ -154,9 +192,12 @@ require_once __DIR__ . '/includes/header.php';
                                     <?php endif; ?>
                                 </div>
                             </div>
-                            <div class="camp-actions">
+                            <div class="camp-actions" style="display: flex; gap: 8px;">
+                                <a href="?edit=<?= $camp['id'] ?>" class="btn btn-sm btn-outline" title="Düzenle">
+                                    <i class="fas fa-edit"></i>
+                                </a>
                                 <a href="?delete=<?= $camp['id'] ?>" class="btn btn-sm btn-danger"
-                                    onclick="return confirm('Bu kampanyayı silmek istediğinize emin misiniz?')">
+                                    onclick="return confirm('Bu kampanyayı silmek istediğinize emin misiniz?')" title="Sil">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </div>

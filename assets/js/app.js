@@ -15,12 +15,44 @@ document.addEventListener('DOMContentLoaded', function () {
 function initMobileMenu() {
     const toggle = document.getElementById('mobileMenuToggle');
     const nav = document.querySelector('.main-nav');
+    const mobileMenu = document.getElementById('mobileMenu');
 
     if (toggle && nav) {
-        toggle.addEventListener('click', function () {
+        toggle.addEventListener('click', function (e) {
+            e.stopPropagation();
             nav.classList.toggle('active');
             this.querySelector('i').classList.toggle('fa-bars');
             this.querySelector('i').classList.toggle('fa-times');
+        });
+    }
+
+    // Mobile menu toggle (header.php'deki mobileMenu için)
+    if (toggle && mobileMenu) {
+        toggle.addEventListener('click', function (e) {
+            e.stopPropagation();
+            mobileMenu.classList.toggle('active');
+            this.querySelector('i').classList.toggle('fa-bars');
+            this.querySelector('i').classList.toggle('fa-times');
+        });
+
+        // Menü dışına tıklayınca kapat
+        document.addEventListener('click', function (e) {
+            if (mobileMenu.classList.contains('active')) {
+                if (!mobileMenu.contains(e.target) && !toggle.contains(e.target)) {
+                    mobileMenu.classList.remove('active');
+                    toggle.querySelector('i').classList.add('fa-bars');
+                    toggle.querySelector('i').classList.remove('fa-times');
+                }
+            }
+        });
+
+        // Menü içindeki linklere tıklayınca kapat
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function () {
+                mobileMenu.classList.remove('active');
+                toggle.querySelector('i').classList.add('fa-bars');
+                toggle.querySelector('i').classList.remove('fa-times');
+            });
         });
     }
 }
@@ -271,13 +303,23 @@ function debounce(func, wait) {
 
 // App Detection
 function initAppDetection() {
+    const userAgent = navigator.userAgent.toLowerCase();
+
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
         window.navigator.standalone ||
         document.referrer.includes('android-app://');
 
-    if (isStandalone) {
+    // WebView detection (webintoapp.com ve diğer WebView'lar için)
+    const isWebView = userAgent.includes('wv') || // Android WebView
+        userAgent.includes('webview') ||
+        (userAgent.includes('android') && userAgent.includes('version/')) || // Android stock browser in WebView
+        /; wv\)/.test(userAgent) || // Android WebView signature
+        window.Android !== undefined || // Android JS interface
+        (typeof window.webkit !== 'undefined' && window.webkit.messageHandlers !== undefined); // iOS WKWebView
+
+    if (isStandalone || isWebView) {
         document.body.classList.add('is-app');
-        console.log('App environment detected');
+        console.log('App environment detected:', isWebView ? 'WebView' : 'Standalone');
     }
 }
 

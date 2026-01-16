@@ -27,7 +27,7 @@ function calculateDistance($lat1, $lng1, $lat2, $lng2)
  */
 function formatPrice($price)
 {
-    return number_format($price, 2, ',', '.') . ' ₺';
+    return number_format($price ?? 0, 2, ',', '.') . ' ₺';
 }
 
 /**

@@ -144,7 +144,7 @@ require_once __DIR__ . '/includes/header.php';
                             <?= formatPrice($currentData['diesel_price'] ?? 0) ?></span>
                     </label>
                     <div class="price-input-group">
-                        <input type="number" name="diesel_price" step="0.01" min="1" max="100" class="form-control"
+                        <input type="number" name="diesel_price" step="0.01" min="0" max="100" class="form-control"
                             placeholder="Örn: 42.50" value="<?= $currentData ? $currentData['diesel_price'] : '' ?>">
                         <span class="currency">₺</span>
                     </div>
@@ -164,7 +164,7 @@ require_once __DIR__ . '/includes/header.php';
                             <?= formatPrice($currentData['truck_diesel_price'] ?? 0) ?></span>
                     </label>
                     <div class="price-input-group">
-                        <input type="number" name="truck_diesel_price" step="0.01" min="1" max="100"
+                        <input type="number" name="truck_diesel_price" step="0.01" min="0" max="100"
                             class="form-control" placeholder="Örn: 41.50" style="border-color: #f87171;"
                             value="<?= $currentData ? $currentData['truck_diesel_price'] : '' ?>">
                         <span class="currency">₺</span>
@@ -181,7 +181,7 @@ require_once __DIR__ . '/includes/header.php';
                             <?= formatPrice($currentData['gasoline_price'] ?? 0) ?></span>
                     </label>
                     <div class="price-input-group">
-                        <input type="number" name="gasoline_price" step="0.01" min="1" max="100" class="form-control"
+                        <input type="number" name="gasoline_price" step="0.01" min="0" max="100" class="form-control"
                             placeholder="Örn: 43.50" value="<?= $currentData ? $currentData['gasoline_price'] : '' ?>">
                         <span class="currency">₺</span>
                     </div>
@@ -199,7 +199,7 @@ require_once __DIR__ . '/includes/header.php';
                             <?= formatPrice($currentData['lpg_price'] ?? 0) ?></span>
                     </label>
                     <div class="price-input-group">
-                        <input type="number" name="lpg_price" step="0.01" min="1" max="100" class="form-control"
+                        <input type="number" name="lpg_price" step="0.01" min="0" max="100" class="form-control"
                             placeholder="Örn: 22.50" value="<?= $currentData ? $currentData['lpg_price'] : '' ?>">
                         <span class="currency">₺</span>
                     </div>

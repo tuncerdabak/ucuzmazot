@@ -21,7 +21,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
     <nav class="sidebar-nav">
         <a href="index.php" class="nav-item <?= $currentPage === 'index.php' ? 'active' : '' ?>">
             <i class="fas fa-home"></i>
-            <span>Dashboard</span>
+            <span>Kontrol Paneli</span>
         </a>
         <a href="fiyat-guncelle.php" class="nav-item <?= $currentPage === 'fiyat-guncelle.php' ? 'active' : '' ?>">
             <i class="fas fa-dollar-sign"></i>

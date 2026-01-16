@@ -1347,8 +1347,37 @@ body.is-app .hide-in-app {
 }
 
 .price-val .blurred {
+    filter: blur(5px);
+    opacity: 0.6;
+    user-select: none;
+}
+
+/* Auth Trigger (Blur Click) */
+.auth-trigger {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.auth-trigger:hover .blurred {
+    opacity: 0.8;
     filter: blur(4px);
-    opacity: 0.5;
+}
+
+.auth-trigger:hover::after {
+    content: '\f023';
+    /* FontAwesome Lock */
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2rem;
+    color: var(--primary);
+    opacity: 0.8;
+    z-index: 10;
+    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
 }
 
 /* Mobile Adjustments */
@@ -1410,34 +1439,62 @@ body.is-app .hide-in-app {
 
 @media (max-width: 480px) {
     .station-card-grid {
-        padding: 12px;
+        padding: 10px;
     }
 
     .price-display-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(3, 1fr);
+        /* Yan yana 3 kolon */
         gap: 6px;
     }
 
     .price-box {
-        flex-direction: row;
-        justify-content: space-between;
+        flex-direction: column;
+        /* İçerik dikey */
+        justify-content: center;
         align-items: center;
         min-height: auto;
-        padding: 10px 15px;
-        text-align: left;
+        padding: 8px 2px;
+        text-align: center;
+        border-radius: 10px;
     }
 
     .price-box .fuel-type {
-        margin-bottom: 0;
-        font-size: 0.75rem;
+        margin-bottom: 2px;
+        font-size: 0.65rem;
+        letter-spacing: 0.5px;
     }
 
     .price-box .price-val {
-        font-size: 1.15rem;
+        font-size: 0.95rem;
+        font-weight: 700;
     }
 
     .price-box.primary-price .price-val {
-        font-size: 1.35rem;
+        font-size: 1.1rem;
+    }
+
+    /* Logo alanı */
+    .station-logo-wrapper {
+        width: 40px;
+        height: 40px;
+    }
+
+    .station-logo-img {
+        max-width: 24px;
+        max-height: 24px;
+    }
+
+    /* Actions */
+    .station-actions-cell {
+        margin-top: 8px;
+        padding-top: 8px;
+    }
+
+    .station-actions-cell .btn {
+        padding: 6px 16px;
+        font-size: 0.85rem;
+        height: auto;
     }
 }
 
@@ -2355,4 +2412,108 @@ body.is-app .hide-in-app {
 
 .text-primary {
     color: var(--primary) !important;
+}
+
+/* ===== MOBILE OPTIMIZATION (Fiyatlar Sayfası) ===== */
+@media (max-width: 768px) {
+
+    /* Kompakt Header */
+    .page-header-premium {
+        padding: 16px;
+        margin-bottom: 20px;
+        border-radius: 16px;
+    }
+
+    .page-header-premium h1 {
+        font-size: 1.25rem;
+        margin-bottom: 4px;
+    }
+
+    .page-header-premium .subtitle {
+        font-size: 0.875rem;
+    }
+
+    .update-badge {
+        display: none !important;
+    }
+
+    /* Kompakt Filter Card */
+    .filter-card-premium {
+        padding: 0;
+        margin-bottom: 20px;
+        border: none;
+        box-shadow: none;
+        background: transparent;
+    }
+
+    [data-theme="dark"] .filter-card-premium {
+        background: transparent;
+        border: none;
+        box-shadow: none;
+    }
+
+    /* Filter Toggle Button */
+    .filter-toggle-btn {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 16px;
+        background: var(--white);
+        border: 1px solid var(--gray-200);
+        border-radius: var(--radius-lg);
+        color: var(--gray-700);
+        font-weight: 600;
+        font-size: 0.9375rem;
+        margin-bottom: 12px;
+        transition: all 0.2s ease;
+        text-align: left;
+    }
+
+    [data-theme="dark"] .filter-toggle-btn {
+        background: var(--gray-100);
+        border-color: rgba(255, 255, 255, 0.08);
+        color: var(--gray-300);
+    }
+
+    .filter-toggle-btn.active {
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05));
+        color: var(--primary);
+        border-color: var(--primary-light);
+    }
+
+    [data-theme="dark"] .filter-toggle-btn.active {
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.1));
+    }
+
+    .filter-toggle-btn .arrow {
+        transition: transform 0.3s ease;
+    }
+
+    .filter-toggle-btn.active .arrow {
+        transform: rotate(180deg);
+    }
+
+    /* Collapsible Filter Content */
+    .filter-grid-collapse {
+        display: none;
+        grid-template-columns: 1fr;
+        gap: 12px;
+        background: var(--white);
+        padding: 16px;
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--gray-200);
+        box-shadow: var(--shadow-sm);
+        margin-top: 8px;
+    }
+
+    [data-theme="dark"] .filter-grid-collapse {
+        background: var(--gray-50);
+        border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .filter-grid-collapse.show {
+        display: grid;
+        animation: slideDown 0.3s ease;
+    }
 }

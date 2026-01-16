@@ -46,6 +46,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && verifyCsrfToken($_POST['csrf_token'
             'email' => $email
         ];
 
+        // Şifre zorunluluğu kontrolü
+        if (!($user['is_password_set'] ?? 1) && empty($password)) {
+            throw new Exception('Lütfen yeni bir şifre belirleyin.');
+        }
+
         if (!empty($password)) {
             if (strlen($password) < 6)
                 throw new Exception('Şifre en az 6 karakter olmalıdır.');
@@ -128,11 +133,15 @@ require_once INCLUDES_PATH . '/header.php';
                     </div>
 
                     <div class="border-t my-8 pt-8">
-                        <h3 class="text-lg font-semibold mb-4">Şifre Değiştir</h3>
+                        <h3 class="text-lg font-semibold mb-4">
+                            <?= !($user['is_password_set'] ?? 1) ? '<span class="text-red-600">Şifre Belirleyin (Zorunlu)</span>' : 'Şifre Değiştir' ?>
+                        </h3>
                         <div class="form-group">
-                            <label class="form-label">Yeni Şifre</label>
+                            <label class="form-label">Yeni Şifre
+                                <?= !($user['is_password_set'] ?? 1) ? '<span class="text-red-600">*</span>' : '' ?></label>
                             <input type="password" name="password" class="form-control"
-                                placeholder="Değiştirmek istemiyorsanız boş bırakın">
+                                placeholder="<?= !($user['is_password_set'] ?? 1) ? 'Lütfen yeni bir şifre belirleyin' : 'Değiştirmek istemiyorsanız boş bırakın' ?>"
+                                <?= !($user['is_password_set'] ?? 1) ? 'required' : '' ?>>
                             <p class="form-text">En az 6 karakter olmalıdır.</p>
                         </div>
                     </div>

@@ -107,49 +107,64 @@ require_once INCLUDES_PATH . '/header.php';
 
     <!-- Premium Filter Card -->
     <div class="filter-card-premium animate__animated animate__fadeIn">
-        <form action="" method="GET" class="filter-grid">
-            <div class="filter-group">
-                <label>Şehir</label>
-                <div class="filter-input-wrapper">
-                    <i class="material-symbols-outlined filter-icon">location_city</i>
-                    <select name="city" onchange="this.form.submit()">
-                        <option value="">Tüm Türkiye</option>
-                        <?php foreach ($cities as $c): ?>
-                            <option value="<?= e($c['city']) ?>" <?= $city === $c['city'] ? 'selected' : '' ?>>
-                                <?= e($c['city']) ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-            </div>
-
-            <div class="filter-group">
-                <label>İstasyon Ara</label>
-                <div class="filter-input-wrapper">
-                    <i class="material-symbols-outlined filter-icon">search</i>
-                    <input type="text" name="q" placeholder="İsim veya ilçe..." value="<?= e($search) ?>">
-                </div>
-            </div>
-
-            <div class="filter-group">
-                <label>Sıralama</label>
-                <div class="filter-input-wrapper">
-                    <i class="material-symbols-outlined filter-icon">sort</i>
-                    <select name="sort" onchange="this.form.submit()">
-                        <option value="price_asc" <?= $sort === 'price_asc' ? 'selected' : '' ?>>En Ucuz Mazot</option>
-                        <option value="near_me" <?= $sort === 'near_me' ? 'selected' : '' ?>>Yanımdaki En Ucuzlar</option>
-                        <option value="date_desc" <?= $sort === 'date_desc' ? 'selected' : '' ?>>En Yeni Güncel</option>
-                        <option value="rating_desc" <?= $sort === 'rating_desc' ? 'selected' : '' ?>>Müşteri Puanı</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="filter-group">
-                <label>&nbsp;</label>
-                <button type="submit" class="filter-btn-premium">
+        <form action="" method="GET">
+            <!-- Mobile Toggle -->
+            <button type="button" class="filter-toggle-btn d-md-none w-100" id="filterToggleBtn">
+                <span class="d-flex align-items-center gap-2">
                     <i class="material-symbols-outlined">filter_alt</i>
-                    Sonuçları Getir
-                </button>
+                    Filtrele ve Sırala
+                </span>
+                <i class="material-symbols-outlined arrow">expand_more</i>
+            </button>
+
+            <!-- Filter Content -->
+            <div class="filter-grid filter-grid-collapse d-md-grid" id="filterContent">
+                <div class="filter-group">
+                    <label>Şehir</label>
+                    <div class="filter-input-wrapper">
+                        <i class="material-symbols-outlined filter-icon">location_city</i>
+                        <select name="city" onchange="this.form.submit()">
+                            <option value="">Tüm Türkiye</option>
+                            <?php foreach ($cities as $c): ?>
+                                <option value="<?= e($c['city']) ?>" <?= $city === $c['city'] ? 'selected' : '' ?>>
+                                    <?= e($c['city']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label>İstasyon Ara</label>
+                    <div class="filter-input-wrapper">
+                        <i class="material-symbols-outlined filter-icon">search</i>
+                        <input type="text" name="q" placeholder="İsim veya ilçe..." value="<?= e($search) ?>">
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label>Sıralama</label>
+                    <div class="filter-input-wrapper">
+                        <i class="material-symbols-outlined filter-icon">sort</i>
+                        <select name="sort" onchange="this.form.submit()">
+                            <option value="price_asc" <?= $sort === 'price_asc' ? 'selected' : '' ?>>En Ucuz Mazot</option>
+                            <option value="near_me" <?= $sort === 'near_me' ? 'selected' : '' ?>>Yanımdaki En Ucuzlar
+                            </option>
+                            <option value="date_desc" <?= $sort === 'date_desc' ? 'selected' : '' ?>>En Yeni Güncel
+                            </option>
+                            <option value="rating_desc" <?= $sort === 'rating_desc' ? 'selected' : '' ?>>Müşteri Puanı
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label class="d-none d-md-block">&nbsp;</label>
+                    <button type="submit" class="filter-btn-premium w-100">
+                        <i class="material-symbols-outlined">filter_alt</i>
+                        Sonuçları Getir
+                    </button>
+                </div>
             </div>
         </form>
     </div>
@@ -243,7 +258,7 @@ require_once INCLUDES_PATH . '/header.php';
                                 <div class="station-prices-cell">
                                     <div class="price-display-grid">
                                         <!-- Mazot -->
-                                        <div class="price-box primary-price">
+                                        <div class="price-box primary-price <?= $isGuest ? 'auth-trigger' : '' ?>">
                                             <?php if ($isCheapest): ?>
                                                 <div class="cheapest-badge">EN UCUZ</div>
                                             <?php endif; ?>
@@ -254,14 +269,14 @@ require_once INCLUDES_PATH . '/header.php';
                                             </span>
                                         </div>
                                         <!-- Benzin -->
-                                        <div class="price-box">
+                                        <div class="price-box <?= $isGuest ? 'auth-trigger' : '' ?>">
                                             <span class="fuel-type">Benzin</span>
                                             <span class="price-val">
                                                 <?= $pGas['visible'] ?><span class="blurred"><?= $pGas['blurred'] ?></span>
                                             </span>
                                         </div>
                                         <!-- LPG -->
-                                        <div class="price-box">
+                                        <div class="price-box <?= $isGuest ? 'auth-trigger' : '' ?>">
                                             <span class="fuel-type">LPG</span>
                                             <span class="price-val">
                                                 <?= $pLpg['visible'] ?><span class="blurred"><?= $pLpg['blurred'] ?></span>
@@ -313,20 +328,33 @@ require_once INCLUDES_PATH . '/header.php';
 <script src="<?= asset('js/map.js') ?>"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        // Sort change handling
         const sortSelect = document.querySelector('select[name="sort"]');
+        if (sortSelect) {
+            sortSelect.addEventListener('change', function (e) {
+                if (this.value === 'near_me') {
+                    e.preventDefault();
+                    getUserLocation(function (pos) {
+                        const url = new URL(window.location.href);
+                        url.searchParams.set('sort', 'near_me');
+                        url.searchParams.set('lat', pos.lat);
+                        url.searchParams.set('lng', pos.lng);
+                        url.searchParams.delete('city');
+                        window.location.href = url.toString();
+                    });
+                }
+            });
+        }
 
-        sortSelect.addEventListener('change', function (e) {
-            if (this.value === 'near_me') {
-                e.preventDefault();
-                getUserLocation(function (pos) {
-                    const url = new URL(window.location.href);
-                    url.searchParams.set('sort', 'near_me');
-                    url.searchParams.set('lat', pos.lat);
-                    url.searchParams.set('lng', pos.lng);
-                    url.searchParams.delete('city'); // Mesafe bazlı aramada şehir fitresini kaldır
-                    window.location.href = url.toString();
-                });
-            }
-        });
+        // Mobile Filter Toggle
+        const filterToggleBtn = document.getElementById('filterToggleBtn');
+        const filterContent = document.getElementById('filterContent');
+
+        if (filterToggleBtn && filterContent) {
+            filterToggleBtn.addEventListener('click', function () {
+                this.classList.toggle('active');
+                filterContent.classList.toggle('show');
+            });
+        }
     });
 </script>

@@ -248,7 +248,12 @@
                     const result = await response.json();
 
                     if (result.success) {
-                        window.location.reload();
+                        const action = formData.get('action');
+                        if (action === 'register') {
+                            window.location.href = '/profil.php';
+                        } else {
+                            window.location.reload();
+                        }
                     } else {
                         alert(result.error || 'Bir hata oluştu');
                         btn.innerHTML = originalText;

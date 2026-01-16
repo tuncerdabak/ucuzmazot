@@ -226,29 +226,22 @@ require_once INCLUDES_PATH . '/header.php';
                                         // Kismi gizleme
                                         $dObj = formatObfuscatedPrice($station['diesel_price']);
                                         $gObj = formatObfuscatedPrice($station['gasoline_price']);
-                                        $lObj = formatObfuscatedPrice($station['lpg_price']); // Varsa
                                         ?>
 
                                         <div class="price-row">
                                             <span class="fuel-label">Mazot</span>
                                             <div class="price-tag">
-                                                <span><?= $dObj['visible'] ?></span><span
-                                                    class="filter-blur"><?= $dObj['blurred'] ?></span>
+                                                <span><?= $dObj['visible'] ?></span><span class="blurred"><?= $dObj['blurred'] ?></span>
                                             </div>
                                         </div>
                                         <?php if ($station['gasoline_price']): ?>
                                             <div class="price-row">
                                                 <span class="fuel-label">Benzin</span>
                                                 <div class="price-tag">
-                                                    <span><?= $gObj['visible'] ?></span><span
-                                                        class="filter-blur"><?= $gObj['blurred'] ?></span>
+                                                    <span><?= $gObj['visible'] ?></span><span class="blurred"><?= $gObj['blurred'] ?></span>
                                                 </div>
                                             </div>
                                         <?php endif; ?>
-                                        <div class="obfuscated-overlay">
-                                            <i class="fas fa-lock"></i>
-                                            <span>Fiyatı Gör</span>
-                                        </div>
                                     </div>
                                 <?php endif; ?>
                             <?php else: ?>
